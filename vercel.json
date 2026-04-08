@@ -24,10 +24,6 @@
       "destination": "/static/apple-touch-icon.png"
     },
     {
-      "source": "/apple-touch-icon-precomposed.png",
-      "destination": "/static/apple-touch-icon-precomposed.png"
-    },
-    {
       "source": "/(.*)",
       "destination": "app.py"
     }

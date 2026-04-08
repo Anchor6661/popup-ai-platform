@@ -8,9 +8,13 @@ import os
 # =================================================================
 
 app = Flask(__name__)
-# Menambahkan Secret Key untuk stabilitas sesi serverless
+# Tambahkan Secret Key untuk kestabilan sesi di awan
 app.secret_key = os.environ.get("SECRET_KEY", "sas_sovereign_2026")
 CORS(app)
+
+# --- PERINGATAN BEN: JANGAN MEMBUAT FOLDER DI VERCEL ---
+# Vercel adalah sistem Read-Only. os.makedirs akan menyebabkan Error 500.
+# Kita biarkan folder statis dikelola oleh sistem Vercel secara otomatis.
 
 @app.route('/')
 def home():
@@ -22,15 +26,14 @@ def movies():
     """Galeri Sinematik: Jalur Visual"""
     return render_template('movies.html')
 
-# Jalur statis otomatis (Vercel handle folder static secara native)
+# Jalur khusus aset statis (CSS, JS, Ikon)
 @app.route('/static/<path:filename>')
 def custom_static(filename):
     return send_from_directory('static', filename)
 
-# Vercel membutuhkan objek 'app' ini untuk dikenali sebagai entry point
-# JANGAN pindahkan atau hapus baris di bawah ini
+# Memastikan Vercel mengenali 'app' sebagai pintu masuk utama
 app = app
 
 if __name__ == '__main__':
-    # Mode lokal tetap aktif untuk laptop Chef
+    # Mode lokal tetap bisa berjalan di laptop Chef
     app.run(debug=True)
