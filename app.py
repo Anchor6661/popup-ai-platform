@@ -30,6 +30,10 @@ def movies():
 def custom_static(filename):
     return send_from_directory('static', filename)
 
+# --- BAGIAN YANG DIUBAH UNTUK VERCEL ---
+# Simpan variabel app agar bisa dipanggil secara global oleh Vercel
+app = app
+
 if __name__ == '__main__':
-    # Mode Lokal untuk Serashii
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    # Mode Lokal hanya aktif jika dijalankan manual di laptop Chef
+    app.run(debug=True)
