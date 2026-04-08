@@ -8,28 +8,29 @@ import os
 # =================================================================
 
 app = Flask(__name__)
+# Menambahkan Secret Key untuk stabilitas sesi serverless
+app.secret_key = os.environ.get("SECRET_KEY", "sas_sovereign_2026")
 CORS(app)
 
 @app.route('/')
 def home():
     """Gerbang Utama: Horizon Peradaban"""
-    # Mengarahkan pengunjung ke halaman utama nebula
     return render_template('index.html')
 
 @app.route('/movies')
 def movies():
     """Galeri Sinematik: Jalur Visual"""
-    # Membuka gerbang galeri film
     return render_template('movies.html')
 
-# Jalur khusus untuk aset statis (gambar, css, js)
-# Vercel akan secara otomatis memetakan folder 'static'
+# Jalur statis otomatis (Vercel handle folder static secara native)
 @app.route('/static/<path:filename>')
 def custom_static(filename):
     return send_from_directory('static', filename)
 
-# JANGAN tambahkan 'app = app' di sini untuk menghindari loop import.
-# Vercel secara otomatis akan mencari variabel bernama 'app' di file ini.
+# Vercel membutuhkan objek 'app' ini untuk dikenali sebagai entry point
+# JANGAN pindahkan atau hapus baris di bawah ini
+app = app
+
 if __name__ == '__main__':
-    # Mode lokal untuk pengujian di laptop Chef
+    # Mode lokal tetap aktif untuk laptop Chef
     app.run(debug=True)
