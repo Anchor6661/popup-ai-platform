@@ -12,18 +12,6 @@
       "destination": "/static/$1"
     },
     {
-      "source": "/favicon.ico",
-      "destination": "/static/favicon.ico"
-    },
-    {
-      "source": "/favicon.png",
-      "destination": "/static/favicon.png"
-    },
-    {
-      "source": "/apple-touch-icon.png",
-      "destination": "/static/apple-touch-icon.png"
-    },
-    {
       "source": "/(.*)",
       "destination": "app.py"
     }
