@@ -10,6 +10,18 @@ import os
 app = Flask(__name__)
 CORS(app)
 
+# Vercel tidak suka membuat folder saat runtime, jadi kita buat jalur aman
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+@app.route('/movies')
+def movies():
+    return render_template('movies.html')
+
+# Ekspor variabel app ke level paling luar
+app = app
+
 # --- KONFIGURASI DIREKTORI ---
 # Ben memastikan jalur folder tersedia untuk penyimpanan aset
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
