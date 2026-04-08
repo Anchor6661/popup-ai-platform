@@ -4,61 +4,32 @@ import os
 
 # =================================================================
 # SYSTEM ENGINE: SAS (Serashii Anchor the Sovereign)
-# CORE SERVER: POPUP.Ai Platform (Sovereign Edition 2026)
+# CORE SERVER: POPUP.Ai Platform (Sovereign Edition)
 # =================================================================
 
 app = Flask(__name__)
 CORS(app)
 
-# Vercel tidak suka membuat folder saat runtime, jadi kita buat jalur aman
 @app.route('/')
 def home():
+    """Gerbang Utama: Horizon Peradaban"""
+    # Mengarahkan pengunjung ke halaman utama nebula
     return render_template('index.html')
 
 @app.route('/movies')
 def movies():
+    """Galeri Sinematik: Jalur Visual"""
+    # Membuka gerbang galeri film
     return render_template('movies.html')
 
-# Ekspor variabel app ke level paling luar
-app = app
-
-# --- KONFIGURASI DIREKTORI ---
-# Ben memastikan jalur folder tersedia untuk penyimpanan aset
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-folders = [
-    os.path.join("static", "uploads", "movies"),
-    os.path.join("static", "uploads", "system"),
-    "templates"
-]
-
-for folder in folders:
-    path = os.path.join(BASE_DIR, folder)
-    if not os.path.exists(path):
-        os.makedirs(path, exist_ok=True)
-
-# --- ROUTING PERADABAN ---
-
-@app.route('/')
-def home():
-    """Gerbang Utama: Horizon Peradaban (Living Universe)"""
-    return render_template('index.html')
-
-@app.route('/movies')
-def movies():
-    """Galeri Sinematik: Jalur Visual yang Diperbaiki"""
-    return render_template('movies.html')
-
-# Jalur khusus untuk aset statis agar Vercel tidak bingung memetakan file
+# Jalur khusus untuk aset statis (gambar, css, js)
+# Vercel akan secara otomatis memetakan folder 'static'
 @app.route('/static/<path:filename>')
 def custom_static(filename):
-    return send_from_directory(os.path.join(BASE_DIR, 'static'), filename)
+    return send_from_directory('static', filename)
 
-# --- VERCEL EXPORT ---
-# Variabel 'app' harus diekspor secara eksplisit di level global 
-# agar Vercel Function Invocation tidak gagal (Error 500)
-app = app
-
+# JANGAN tambahkan 'app = app' di sini untuk menghindari loop import.
+# Vercel secara otomatis akan mencari variabel bernama 'app' di file ini.
 if __name__ == '__main__':
-    # Mode Lokal untuk Serashii saat pengembangan di VS Code
-    # Vercel akan mengabaikan blok ini dan langsung mengambil variabel 'app' di atas
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    # Mode lokal untuk pengujian di laptop Chef
+    app.run(debug=True)
