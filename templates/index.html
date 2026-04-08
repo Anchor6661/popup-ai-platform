@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POPUP.Ai | Portal Galaksi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --popup-orange: #FF4D00;
+            --deep-void: #020305;
+            --nebula-glow: rgba(255, 77, 0, 0.08);
+            --nebula-blue: rgba(0, 80, 255, 0.03);
+            --glass: rgba(255, 255, 255, 0.015);
+        }
+
+        * { cursor: crosshair; }
+
+        body, html {
+            margin: 0; padding: 0;
+            background-color: var(--deep-void);
+            color: white;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* --- THE LIVING UNIVERSE BACKGROUND --- */
+        .universe-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -10;
+            overflow: hidden;
+            pointer-events: none;
+            background: radial-gradient(circle at 50% 50%, #0a0c10 0%, var(--deep-void) 100%);
+        }
+
+        .nebula-orange {
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle at 70% 20%, var(--nebula-glow) 0%, transparent 40%);
+            filter: blur(100px);
+            animation: cosmicDrift 120s ease-in-out infinite;
+        }
+
+        .nebula-blue {
+            position: absolute;
+            top: -30%; left: -30%; width: 180%; height: 180%;
+            background: radial-gradient(circle at 20% 80%, var(--nebula-blue) 0%, transparent 50%);
+            filter: blur(120px);
+            animation: cosmicDrift 140s ease-in-out infinite reverse;
+        }
+
+        @keyframes cosmicDrift {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-3%, 3%) rotate(3deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+
+        .stars {
+            position: absolute;
+            width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(1.2px 1.2px at 15% 25%, #ffffff, transparent),
+                radial-gradient(1px 1px at 80% 80%, rgba(255,255,255,0.4), transparent);
+            background-size: 400px 400px;
+            opacity: 0.15;
+            animation: twinkle 20s ease-in-out infinite;
+        }
+
+        /* --- HERO & SUCKING EFFECT --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .massive-title {
+            font-size: clamp(3.5rem, 16vw, 12rem);
+            font-weight: 800;
+            line-height: 0.8;
+            letter-spacing: -0.06em;
+            background: linear-gradient(180deg, #FFFFFF 50%, rgba(255, 255, 255, 0.05) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            transition: transform 0.2s ease-out;
+            will-change: transform, opacity;
+        }
+
+        .massive-title span { color: var(--popup-orange); }
+
+    </style>
+</head>
+<body onload="checkAuthParams()">
+
+    <div class="universe-container">
+        <div class="nebula-orange"></div>
+        <div class="nebula-blue"></div>
+        <div class="stars"></div>
+    </div>
+
+    <header class="fixed top-0 left-0 w-full p-12 flex justify-between items-center z-[100]">
+        <div class="flex items-center gap-5 cursor-pointer" onclick="window.location.href='/'">
+            <div class="w-12 h-12 border border-[#FF4D00]/40 rounded-full flex items-center justify-center backdrop-blur-xl">
+                <span class="text-[#FF4D00] text-[12px] font-black">P</span>
+            </div>
+            <h1 class="text-2xl font-extrabold tracking-tighter">POPUP<span>.Ai</span></h1>
+        </div>
+        <button id="nav-signin" onclick="location.href='/?code=auth'" class="bg-white text-black px-10 py-3 rounded-full text-[0.65rem] font-black tracking-widest uppercase hover:bg-orange-600 hover:text-white transition-all">Sign In</button>
+    </header>
+
+    <main class="hero">
+        <h1 class="massive-title" id="main-title">POPUP<span>.AI</span></h1>
+        <p class="text-[0.7rem] letter-spacing-[1.5em] text-[#FF4D00] opacity-50 uppercase mt-12 font-black">Pop Up Your World</p>
+    </main>
+
+    <script>
+        function checkAuthParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('code')) {
+                document.getElementById('nav-signin').innerText = "Serashii ✓";
+                document.getElementById('nav-signin').classList.add('bg-orange-600', 'text-white');
+                window.history.replaceState({}, document.title, "/");
+            }
+        }
+
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const title = document.getElementById('main-title');
+            const scaleValue = 1 + (scrolled * 0.0008);
+            const opacityValue = 1 - (scrolled * 0.0025);
+            if (scrolled < 1000) {
+                title.style.transform = `scale(${scaleValue})`;
+                title.style.opacity = opacityValue;
+            }
+        });
+    </script>
+</body>
+</html>

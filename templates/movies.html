@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POPUP.AI | THE ALPHA MIRAI</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,800&display=swap');
+        
+        :root {
+            --popup-bg: #0F1113;
+            --popup-orange: #FF4D00;
+            --popup-blue: #007AFF;
+            --card-bg: #16191C;
+            --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* KIDS MODE STYLING */
+        body.kids-mode {
+            --popup-bg: #FFEB3B;
+            --popup-orange: #FF4081;
+            --card-bg: #FFFFFF;
+            color: #1A1A1A;
+        }
+
+        * {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--popup-bg);
+            color: #FFFFFF;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            transition: background 0.8s ease;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        header.top-nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 6%;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+            background: linear-gradient(to bottom, rgba(15, 17, 19, 0.9) 0%, transparent 100%);
+        }
+
+        header.top-nav.scrolled {
+            background: var(--popup-bg);
+            padding: 1rem 6%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        body.kids-mode header.top-nav {
+            background: var(--popup-bg);
+            color: #000;
+        }
+
+        .brand {
+            font-size: 1.8rem;
+            font-weight: 800;
+            font-style: italic;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            cursor: pointer;
+        }
+
+        .brand span {
+            color: var(--popup-orange);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.5);
+            transition: 0.3s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: white;
+        }
+
+        #searchWrapper {
+            background: transparent !important;
+            border: none !important;
+            display: flex;
+            align-items: center;
+        }
+
+        #movieSearch {
+            width: 0;
+            opacity: 0;
+            padding: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-left: 0;
+            background: transparent !important;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: white;
+            outline: none;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        #searchWrapper.active-search #movieSearch {
+            width: 180px;
+            opacity: 1;
+            padding: 6px 0;
+            border-bottom: 2px solid var(--popup-orange);
+            margin-left: 10px;
+        }
+
+        .search-trigger {
+            cursor: pointer;
+            color: rgba(255,255,255,0.5);
+            transition: 0.3s;
+        }
+        
+        .search-trigger:hover {
+            color: var(--popup-orange);
+        }
+
+        .btn-account {
+            background: white;
+            color: black;
+            padding: 0.6rem 1.2rem;
+            font-size: 10px;
+            font-weight: 800;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        .btn-account:hover {
+            background: var(--popup-orange);
+            color: white;
+        }
+
+        .btn-category {
+            padding: 10px 22px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-category:hover, .btn-category.active {
+            background: var(--popup-orange);
+            color: white;
+            border-color: var(--popup-orange);
+            transform: translateY(-2px);
+        }
+
+        .hero {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding-left: 8%;
+            background: #000;
+            z-index: 10;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        #heroVisualContent {
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-bg video, .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.5;
+        }
+
+        .hero-gradient {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, var(--popup-bg) 10%, transparent 70%), 
+                        linear-gradient(to top, var(--popup-bg) 5%, transparent 40%);
+            z-index: 2;
+            pointer-events: none; /* AGAR KLIK TEMBUS */
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 800px;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 800;
+            font-style: italic;
+            text-transform: uppercase;
+            line-height: 0.85;
+            letter-spacing: -3px;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title span {
+            color: var(--popup-orange);
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .main-section {
+            padding: 2rem 8% 5rem 8%;
+            position: relative;
+            z-index: 20;
+        }
+
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem 0;
+        }
+
+        .card {
+            aspect-ratio: 16/9;
+            background: var(--card-bg);
+            border-radius: 6px;
+            position: relative;
+            overflow: visible; /* SUPAYA OVERLAY TERLIHAT */
+            transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: scale(1.08);
+            z-index: 100;
+            border-color: var(--popup-orange);
+        }
+
+        .card-overlay {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            display: flex;
+            gap: 10px;
+            opacity: 0;
+            transition: 0.3s;
+            z-index: 200;
+        }
+
+        .card:hover .card-overlay {
+            opacity: 1;
+        }
+
+        .btn-mini {
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.7);
+            color: white;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+
+        #profileOverlay {
+            position: fixed;
+            inset: 0;
+            z-index: 6000;
+            background: radial-gradient(circle at center, #2C2F33 0%, #0F1113 100%);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(20px);
+        }
+
+        #profileOverlay.active {
+            display: flex !important;
+        }
+
+        .profile-container {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .profile-box {
+            text-align: center;
+            cursor: pointer;
+            width: 150px;
+        }
+
+        .avatar-frame {
+            width: 150px;
+            height: 150px;
+            background: #16191C;
+            border-radius: 12px;
+            border: 4px solid transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .profile-box:hover .avatar-frame {
+            border-color: white;
+            transform: translateY(-10px);
+        }
+
+        #secretUpload, #previewModal {
+            position: fixed;
+            inset: 0;
+            z-index: 6000;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(20px);
+        }
+
+        #secretUpload.active, #previewModal.active { 
+            display: flex; 
+        }
+
+        .preview-content {
+            width: 90%;
+            max-width: 1000px;
+            background: #16191C;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255,77,0,0.3);
+        }
+
+        .branding-footer {
+            padding: 6rem 8% 4rem 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+    </style>
+</head>
+<body class="no-scrollbar">
+
+    <div id="profileOverlay">
+        <h2 class="text-white text-4xl font-black italic tracking-tighter mb-12 animate__animated animate__fadeIn">WHO'S WATCHING?</h2>
+        <div class="profile-container">
+            <div class="profile-box" onclick="setUserMode('personal')">
+                <div class="avatar-frame">
+                    <svg class="w-16 h-16 text-white/10" fill="currentColor" viewBox="0 0 20 20"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"></path></svg>
+                </div>
+                <p class="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em]">Personal</p>
+            </div>
+            <div class="profile-box" onclick="setUserMode('kids')">
+                <div class="avatar-frame bg-orange-600">
+                    <span class="text-6xl">🎈</span>
+                </div>
+                <p class="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em]">Kids Mode</p>
+            </div>
+        </div>
+        <button onclick="closeProfile()" class="mt-24 text-[9px] font-black text-white/20 hover:text-white uppercase tracking-[0.4em] transition">Kembali ke Beranda</button>
+    </div>
+
+    <header class="top-nav" id="navbar">
+        <div class="nav-left">
+            <div class="brand" onclick="location.reload()">POPUP<span>.AI</span></div>
+            <nav class="nav-menu">
+                <a href="/" class="nav-link">Home</a>
+                <a href="#" class="nav-link active">Movies</a>
+                <a href="#" class="nav-link">Series</a>
+            </nav>
+        </div>
+        <div class="nav-right flex items-center gap-6">
+            <div id="searchWrapper">
+                <svg onclick="toggleXSearch()" class="search-trigger w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <input type="text" id="movieSearch" placeholder="CARI JUDUL...">
+            </div>
+            <button class="btn-account" onclick="openProfile()">My Account</button>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-bg" id="heroContainer">
+            <div id="heroVisualContent">
+                {% if trailer %}
+                <video autoplay muted loop playsinline><source src="/static/uploads/movies/{{ trailer }}" type="video/mp4"></video>
+                {% elif poster %}
+                <img src="/static/uploads/movies/{{ poster }}">
+                {% else %}
+                <div class="bg-zinc-900 w-full h-full flex items-center justify-center">
+                    <span class="text-white/10 text-xs tracking-widest uppercase">Select Media to Preview</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="hero-gradient"></div>
+        <div class="hero-content">
+            <h1 class="hero-title animate__animated animate__fadeInUp" id="heroTitle">THE ALPHA<br><span>MIRAI</span></h1>
+            <div class="hero-description animate__animated animate__fadeInUp">
+                <p id="mainDesc">Eksplorasi energi orange dalam dimensi sinematik terbaru melalui teknologi AI tercanggih.</p>
+                <div class="flex gap-4 mt-6">
+                    <button onclick="handleEditDesc()" class="btn-mini">Edit Profile</button>
+                    <button onclick="handleDeleteDesc()" class="btn-mini">Reset Hero</button>
+                </div>
+            </div>
+            <button class="px-12 py-4 bg-white text-black font-black text-xs tracking-widest rounded hover:bg-orange-600 hover:text-white transition uppercase shadow-2xl">Play Now</button>
+        </div>
+    </section>
+
+    <div class="px-[8%] py-10 animate__animated animate__fadeInUp" style="position: relative; z-index: 50; background: var(--popup-bg);">
+        <div class="flex flex-wrap gap-4 items-center">
+            <button class="btn-category active">Home</button>
+            <button class="btn-category">10 best movies</button>
+            <button class="btn-category">10 best pick by editor</button>
+            <button class="btn-category">coming soon</button>
+            <button class="btn-category">continue watching</button>
+            <button class="btn-category">My List</button>
+        </div>
+    </div>
+
+    <main class="main-section">
+        <div class="movie-grid" id="movieGrid">
+            {% for m in movie_nodes %}
+            <div class="card group" onclick="openPreview('{{ m.filename|safe }}')">
+                <div class="w-full h-full relative">
+                    {% if m.poster %}
+                        <img src="/static/uploads/movies/{{ m.poster }}" class="w-full h-full object-cover">
+                    {% else %}
+                        <div class="w-full h-full bg-zinc-800 flex items-center justify-center text-[10px] text-white/20">NO COVER</div>
+                    {% endif %}
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-4">
+                        <h3 class="card-title text-white font-bold text-[10px] uppercase tracking-wider">
+                            {{ m.title.replace('_', ' ').replace('-', ' ') }}
+                        </h3>
+                    </div>
+                </div>
+                <div class="card-overlay" onclick="event.stopPropagation()">
+                    <button onclick="promoteToHero('{{ m.filename|safe }}')" class="btn-mini bg-orange-600 border-none">Hero</button>
+                    <button onclick="deleteNodeFinal('{{ m.filename|safe }}')" class="btn-mini bg-red-600 border-none">Del</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="h-20"></div>
+        <div class="h-20"></div>
+    </main>
+
+    <footer class="branding-footer">
+        <div class="footer-brand">POPUP<span>.AI</span></div>
+        <div class="text-right">
+            <p class="partner-slogan">Your AI Streaming Partner</p>
+            <p class="text-[8px] text-white/20 mt-2 tracking-[4px]">ALPHA MIRAI V3.0 FIXED</p>
+        </div>
+    </footer>
+
+    <div id="secretUpload">
+        <div class="bg-[#16191C] p-12 rounded-2xl border border-white/5 w-full max-w-lg text-center shadow-2xl">
+            <h2 class="text-white font-black italic mb-8 uppercase tracking-widest">Upload System</h2>
+            <form id="uploadForm" class="space-y-6" action="/upload" method="POST" enctype="multipart/form-data">
+                <input type="file" name="file" class="block w-full text-xs text-white bg-white/5 p-4 rounded border border-white/10">
+                <div class="flex gap-4">
+                    <button type="button" onclick="toggleUpload()" class="flex-1 py-4 bg-white/5 text-white uppercase text-[10px] font-bold">Batal</button>
+                    <button type="submit" class="flex-1 py-4 bg-orange-600 text-white font-bold uppercase text-[10px]">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="previewModal" onclick="this.classList.remove('active')">
+        <div class="preview-content animate__animated animate__zoomIn" onclick="event.stopPropagation()">
+            <div id="previewMedia" class="aspect-video bg-black w-full"></div>
+            <div class="p-10 text-center">
+                <h2 id="previewTitle" class="text-3xl font-black italic uppercase text-orange-600 mb-4">TITLE</h2>
+                <button onclick="document.getElementById('previewModal').classList.remove('active')" class="px-10 py-4 bg-white/10 text-white font-bold text-[10px] uppercase rounded">Close Preview</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openProfile() { document.getElementById('profileOverlay').classList.add('active'); }
+        function closeProfile() { document.getElementById('profileOverlay').classList.remove('active'); }
+        function toggleUpload() { document.getElementById('secretUpload').classList.toggle('active'); }
+
+        function setUserMode(mode) {
+            document.body.classList.toggle('kids-mode', mode === 'kids');
+            const desc = mode === 'kids' ? "Halo teman-teman! Selamat datang!" : "Eksplorasi energi orange dalam dimensi sinematik terbaru.";
+            document.getElementById('mainDesc').innerText = desc;
+            closeProfile();
+        }
+
+        function toggleXSearch() {
+            const wrapper = document.getElementById('searchWrapper');
+            const input = document.getElementById('movieSearch');
+            wrapper.classList.toggle('active-search');
+            if (wrapper.classList.contains('active-search')) input.focus();
+        }
+
+        // --- THE ENGINE FIX ---
+        function promoteToHero(filename) {
+    const container = document.getElementById('heroVisualContent');
+    const titleDisplay = document.getElementById('heroTitle');
+    if(!container) return;
+
+    // 1. CLEANING & LOADING
+    container.innerHTML = '';
+    const path = `/static/uploads/movies/${filename}`;
+    const isVid = filename.toLowerCase().match(/\.(mp4|mov|webm)$/);
+
+    // 2. INJECTION (ZERO LAG)
+    if(isVid) {
+        container.innerHTML = `<video autoplay muted loop playsinline class="w-full h-full object-cover animate__animated animate__fadeIn"><source src="${path}" type="video/mp4"></video>`;
+    } else {
+        container.innerHTML = `<img src="${path}" class="w-full h-full object-cover animate__animated animate__fadeIn">`;
+    }
+    
+    // 3. TITLE UPDATE
+    if(titleDisplay) titleDisplay.innerHTML = `<span>${filename.split('.')[0].toUpperCase()}</span>`;
+
+    // 4. THE JRENG MOMENT: AUTO-SCROLL TO TOP
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+            
+            const cleanTitle = filename.split('.')[0].replace(/[_-]/g, ' ').toUpperCase();
+            titleDisplay.innerHTML = `<span>${cleanTitle}</span>`;
+            
+            // PAKSA VIEWPORT PINDAH KE ATAS
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function deleteNodeFinal(filename) {
+            if(confirm(`Konfirmasi: Hapus permanen ${filename}?`)) {
+                fetch('/delete/' + filename, { method: 'POST' }).then(r => { if(r.ok) location.reload(); });
+            }
+        }
+
+        function openPreview(filename) {
+            const modal = document.getElementById('previewModal');
+            const media = document.getElementById('previewMedia');
+            const title = document.getElementById('previewTitle');
+            if(!filename || filename === 'None') return;
+            const isVid = filename.toLowerCase().match(/\.(mp4|mov|webm)$/);
+            title.innerText = filename.split('.')[0].toUpperCase();
+            media.innerHTML = isVid ? 
+                `<video src="/static/uploads/movies/${filename}" autoplay muted loop class="w-full h-full object-cover"></video>` : 
+                `<img src="/static/uploads/movies/${filename}" class="w-full h-full object-cover">`;
+            modal.classList.add('active');
+        }
+
+        document.getElementById('movieSearch').addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase();
+            document.querySelectorAll('.card').forEach(card => {
+                const titleEl = card.querySelector('.card-title');
+                if(titleEl) {
+                    const title = titleEl.innerText.toLowerCase();
+                    card.style.display = title.includes(term) ? "block" : "none";
+                }
+            });
+        });
+
+        window.addEventListener('keydown', (e) => { if(e.key.toLowerCase() === 'u') toggleUpload(); });
+        new Sortable(document.getElementById('movieGrid'), { animation: 350 });
+
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
+        });
+    </script>
+</body>
+</html>
