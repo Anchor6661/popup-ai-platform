@@ -16,6 +16,18 @@
       "destination": "/static/favicon.ico"
     },
     {
+      "source": "/favicon.png",
+      "destination": "/static/favicon.png"
+    },
+    {
+      "source": "/apple-touch-icon.png",
+      "destination": "/static/apple-touch-icon.png"
+    },
+    {
+      "source": "/apple-touch-icon-precomposed.png",
+      "destination": "/static/apple-touch-icon-precomposed.png"
+    },
+    {
       "source": "/(.*)",
       "destination": "app.py"
     }
