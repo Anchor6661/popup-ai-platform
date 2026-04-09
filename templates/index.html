@@ -10,10 +10,10 @@
         :root {
             --popup-orange: #FF4D00;
             --deep-void: #010204;
-            /* Intensitas Supernova: Warna dibuat jauh lebih solid agar terlihat di semua monitor */
-            --nebula-orange: rgba(255, 77, 0, 0.55);
-            --nebula-magenta: rgba(255, 0, 212, 0.4);
-            --nebula-blue: rgba(0, 102, 255, 0.3);
+            /* Warna Nebula ditingkatkan saturasinya agar 'pecah' keluar dari kegelapan */
+            --nebula-orange: rgba(255, 77, 0, 0.6);
+            --nebula-magenta: rgba(255, 0, 212, 0.45);
+            --nebula-blue: rgba(0, 102, 255, 0.35);
             --glass: rgba(255, 255, 255, 0.04);
             --glass-border: rgba(255, 255, 255, 0.1);
         }
@@ -34,11 +34,11 @@
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: -10;
-            /* Gradient dasar dibuat lebih terang di tengah agar tidak hampa */
-            background: radial-gradient(circle at 50% 50%, #0d1117 0%, var(--deep-void) 100%);
+            /* Dasar gradient dibuat lebih kebiruan/ungu tua agar tidak hampa hitam */
+            background: radial-gradient(circle at center, #0f131a 0%, #010204 100%);
         }
 
-        /* Debu Kosmik & Bintang */
+        /* Bintang & Debu Kosmik */
         .stars-layer {
             position: absolute;
             inset: 0;
@@ -49,35 +49,36 @@
                 radial-gradient(1.5px 1.5px at 30% 70%, #ff00d4, transparent),
                 radial-gradient(1px 1px at 70% 30%, #0066ff, transparent);
             background-size: 300px 300px;
-            opacity: 0.6;
-            animation: twinkle 10s linear infinite;
+            opacity: 0.65;
+            animation: twinkle 12s linear infinite;
         }
 
-        /* --- LAYER 2: NEBULA SUPERNOVA (THE CONTENT) --- */
+        /* --- LAYER 2: NEBULA SUPERNOVA (DIPUSATKAN) --- */
         .nebula-drift {
             position: absolute;
-            inset: -15%;
-            filter: blur(80px); /* Blur dikurangi sedikit agar warna lebih 'tegas' */
-            opacity: 0.8;
+            inset: -10%;
+            filter: blur(90px);
+            opacity: 0.85;
             mix-blend-mode: screen;
-            animation: cosmicShift 25s ease-in-out infinite;
+            animation: cosmicShift 30s ease-in-out infinite;
         }
 
-        .neb-1 { top: -10%; right: 5%; width: 80%; height: 80%; background: var(--nebula-orange); }
-        .neb-2 { bottom: -10%; left: 5%; width: 75%; height: 75%; background: var(--nebula-magenta); animation-delay: -5s; }
-        .neb-3 { top: 30%; left: 25%; width: 50%; height: 50%; background: var(--nebula-blue); opacity: 0.4; }
+        /* Posisi Nebula digeser agar lebih menjorok ke tengah layar */
+        .neb-1 { top: -5%; right: 15%; width: 70%; height: 70%; background: var(--nebula-orange); }
+        .neb-2 { bottom: -5%; left: 15%; width: 65%; height: 65%; background: var(--nebula-magenta); animation-delay: -5s; }
+        .neb-3 { top: 35%; left: 30%; width: 40%; height: 40%; background: var(--nebula-blue); opacity: 0.5; }
 
-        /* --- LAYER 3: PLANETARY HORIZON (MASIF & BERPENDAR) --- */
+        /* --- LAYER 3: PLANETARY HORIZON (THE ANCHOR) --- */
         .planetary-horizon {
             position: absolute;
             bottom: -25%; left: 50%; width: 160%; height: 60%;
             transform: translateX(-50%);
-            background: radial-gradient(ellipse at center, rgba(255, 77, 0, 0.3) 0%, transparent 75%);
-            border-top: 4px solid rgba(255, 77, 0, 0.6);
+            background: radial-gradient(ellipse at center, rgba(255, 77, 0, 0.35) 0%, transparent 75%);
+            border-top: 4px solid rgba(255, 77, 0, 0.7);
             border-radius: 100% 100% 0 0;
-            filter: blur(20px);
+            filter: blur(25px);
             z-index: -5;
-            box-shadow: 0 -30px 150px rgba(255, 77, 0, 0.2);
+            box-shadow: 0 -30px 150px rgba(255, 77, 0, 0.25);
         }
 
         /* --- LAYER 4: SHARP UI SYSTEM --- */
@@ -98,7 +99,7 @@
         }
 
         .massive-title {
-            font-size: clamp(4rem, 15vw, 10rem);
+            font-size: clamp(3.5rem, 12vw, 9rem);
             font-weight: 800;
             line-height: 0.8;
             letter-spacing: -0.06em;
@@ -106,8 +107,7 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            /* Glow pada judul untuk menerangi background */
-            filter: drop-shadow(0 0 40px rgba(255,255,255,0.2));
+            filter: drop-shadow(0 0 30px rgba(255,255,255,0.15));
         }
 
         .btn-sovereign {
@@ -124,18 +124,17 @@
         }
 
         .btn-sovereign:hover {
-            transform: scale(1.15) translateY(-8px);
+            transform: scale(1.12) translateY(-8px);
             box-shadow: 0 20px 80px rgba(255, 77, 0, 0.8);
         }
 
-        /* Motion System */
         @keyframes cosmicShift {
             0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
-            50% { transform: translate(-3%, 5%) scale(1.2) rotate(2deg); }
+            50% { transform: translate(-2%, 4%) scale(1.15) rotate(1.5deg); }
         }
         @keyframes twinkle {
-            0%, 100% { opacity: 0.4; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.1); }
+            0%, 100% { opacity: 0.45; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(1.05); }
         }
 
         #scroll-progress {
@@ -149,7 +148,7 @@
 
     <div id="scroll-progress"></div>
 
-    <!-- BACKGROUND SYSTEM (REMASTERED) -->
+    <!-- BACKGROUND SYSTEM (REMASTERED & CENTERED) -->
     <div class="universe-container">
         <div class="stars-layer"></div>
         <div class="nebula-drift neb-1"></div>
@@ -182,7 +181,7 @@
                 <span class="text-[0.8rem] font-black tracking-[0.8em] uppercase">Living Universe 2.0</span>
             </div>
             <h1 class="massive-title mb-16">Enter the<br><span class="text-[#FF4D00]">AI Universe</span></h1>
-            <p class="text-2xl lg:text-4xl opacity-80 font-light tracking-wide max-w-4xl mb-24 leading-relaxed">
+            <p class="text-2xl lg:text-4xl opacity-85 font-light tracking-wide max-w-4xl mb-24 leading-relaxed">
                 Platform kedaulatan masa depan. Hidupkan imajinasi Anda dalam harmoni sinematik antara visi manusia dan kecerdasan buatan.
             </p>
             <div class="flex flex-wrap gap-12">
@@ -268,10 +267,11 @@
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
             const height = document.documentElement.scrollHeight - window.innerHeight;
-            const aprogress = (scrolled / height) * 100;
-            document.getElementById('scroll-progress').style.width = progress + "%";
+            const progress = (scrolled / height) * 100;
+            const progressEl = document.getElementById('scroll-progress');
+            if(progressEl) progressEl.style.width = progress + "%";
 
-            // Title Motion
+            // Title Motion (Hanya posisi, tidak ada scaling)
             const title = document.querySelector('.massive-title');
             if(title) {
                 title.style.transform = `translateY(${scrolled * 0.35}px)`;
