@@ -15,8 +15,10 @@
         :root {
             --popup-orange: #FF4D00;
             --deep-void: #010204;
-            --glass: rgba(255, 255, 255, 0.02);
-            --glass-border: rgba(255, 255, 255, 0.08);
+            --planet-rim: rgba(255, 77, 0, 0.6);
+            --nebula-magenta: rgba(255, 0, 212, 0.15);
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
         * { cursor: crosshair; }
@@ -35,62 +37,63 @@
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: -10;
-            /* Dasar gradient ditingkatkan agar tidak hampa hitam */
-            background: radial-gradient(circle at center, #0d111a 0%, #010204 100%);
+            background: radial-gradient(circle at 70% 50%, #0d111a 0%, var(--deep-void) 100%);
             overflow: hidden;
         }
 
-        /*  - Planet Fisik di Sisi Kanan */
+        /*  - Planet dengan Cahaya Tepi (Rim Lighting) */
         .planet-centerpiece {
-            position: absolute;
-            top: 50%; right: -10vw;
-            transform: translateY(-50%);
-            width: 75vw; height: 75vw;
-            background: radial-gradient(circle at 35% 35%, 
-                #FF4D00 0%, 
-                #1a0f0a 45%, 
-                #000 80%
-            );
-            border-radius: 50%;
-            z-index: 1;
-            /* Cahaya Atmosfer Planet */
-            box-shadow: 
-                -25px 0 100px rgba(255, 77, 0, 0.2),
-                inset -50px 0 150px rgba(0,0,0,1);
-        }
-
-        /* Pendaran Cahaya Global */
-        .cosmic-haze {
             position: absolute;
             top: 50%; right: -15vw;
             transform: translateY(-50%);
-            width: 90vw; height: 90vw;
-            background: radial-gradient(circle, rgba(255, 77, 0, 0.1) 0%, transparent 65%);
-            filter: blur(120px);
-            z-index: 0;
+            width: 85vw; height: 85vw;
+            background: radial-gradient(circle at 25% 35%, 
+                #FF4D00 0%, 
+                #1a0f0a 35%, 
+                #000 65%
+            );
+            border-radius: 50%;
+            z-index: 1;
+            /* Rim Lighting agar planet 'pecah' keluar dari background */
+            box-shadow: 
+                -10px 0 60px var(--planet-rim),
+                inset -30px 0 100px rgba(0,0,0,1);
         }
 
-        /* Shroud Kiri (Untuk Ketajaman Teks) */
+        /* Pendaran Cahaya Atmosfer Planet */
+        .cosmic-haze {
+            position: absolute;
+            top: 50%; right: -20vw;
+            transform: translateY(-50%);
+            width: 100vw; height: 100vw;
+            background: radial-gradient(circle, rgba(255, 77, 0, 0.15) 0%, transparent 70%);
+            filter: blur(120px);
+            z-index: 0;
+            mix-blend-mode: screen;
+        }
+
+        /* Shroud Kiri (Gradient Gelap Tajam untuk Headline) */
         .left-shroud {
             position: absolute;
             inset: 0;
             background: linear-gradient(to right, 
                 rgba(1, 2, 4, 1) 0%, 
-                rgba(1, 2, 4, 0.9) 35%, 
-                rgba(1, 2, 4, 0.4) 65%,
-                rgba(1, 2, 4, 0) 90%
+                rgba(1, 2, 4, 0.95) 30%, 
+                rgba(1, 2, 4, 0.6) 55%,
+                rgba(1, 2, 4, 0) 85%
             );
             z-index: 5;
         }
 
-        /* Global Overlay (45% Dimmer) */
+        /* Global Overlay (50% Dimmer - Immersive) */
         .global-dimmer {
             position: absolute;
             inset: 0;
-            background: rgba(0, 0, 0, 0.45);
+            background: rgba(0, 0, 0, 0.5);
             z-index: 4;
         }
 
+        /* Bintang-bintang Tekstur */
         .stars {
             position: absolute;
             inset: 0;
@@ -99,17 +102,17 @@
                 radial-gradient(1px 1px at 65% 65%, rgba(255,255,255,0.7), transparent),
                 radial-gradient(2px 2px at 35% 85%, var(--popup-orange), transparent);
             background-size: 350px 350px;
-            opacity: 0.35;
+            opacity: 0.3;
             z-index: 2;
         }
 
         /* --- LAYER 2: SHARP PRODUCTION UI --- */
         .massive-title {
-            font-size: clamp(3.5rem, 11vw, 8rem);
+            font-size: clamp(3.5rem, 11vw, 8.5rem);
             font-weight: 800;
             line-height: 0.85;
             letter-spacing: -0.06em;
-            background: linear-gradient(180deg, #FFFFFF 40%, rgba(255,255,255,0.2) 100%);
+            background: linear-gradient(180deg, #FFFFFF 45%, rgba(255,255,255,0.2) 100%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -124,13 +127,13 @@
             font-size: 0.75rem;
             letter-spacing: 0.3em;
             text-transform: uppercase;
-            box-shadow: 0 0 35px rgba(255, 77, 0, 0.35);
+            box-shadow: 0 0 40px rgba(255, 77, 0, 0.35);
             transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1.2);
         }
 
         .btn-sovereign:hover {
             transform: scale(1.06) translateY(-4px);
-            box-shadow: 0 0 55px rgba(255, 77, 0, 0.55);
+            box-shadow: 0 0 60px rgba(255, 77, 0, 0.55);
         }
 
         .glass-card {
@@ -139,9 +142,16 @@
             -webkit-backdrop-filter: blur(40px);
             border: 1px solid var(--glass-border);
             border-radius: 2.8rem;
+            transition: all 0.6s ease;
         }
 
-        /* Animasi drift planet yang halus */
+        .glass-card:hover {
+            border-color: var(--popup-orange);
+            background: rgba(255, 77, 0, 0.05);
+            transform: translateY(-8px);
+        }
+
+        /* Animasi drift planet yang sangat halus */
         @keyframes subtleDrift {
             0%, 100% { transform: translateY(-50%) scale(1); }
             50% { transform: translateY(-51.5%) scale(1.02); }
@@ -151,7 +161,7 @@
 </head>
 <body onload="checkAuthParams()">
 
-    <!-- THE UNIVERSE (BACKGROUND) -->
+    <!-- THE UNIVERSE (KEY VISUAL) -->
     <div class="universe-viewport">
         <div class="cosmic-haze"></div>
         <div class="planet-centerpiece animate-cosmic"></div>
@@ -191,6 +201,12 @@
                 <button onclick="document.getElementById('discovery').scrollIntoView({behavior: 'smooth'})" class="btn-sovereign">Explore Platform</button>
                 <button class="px-11 py-5 rounded-full text-[0.7rem] font-bold tracking-[0.3em] uppercase border border-white/10 hover:bg-white hover:text-black transition-all backdrop-blur-md">Become Creator</button>
             </div>
+        </div>
+        
+        <!-- Scroll Hint -->
+        <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-30 animate-bounce">
+            <span class="text-[8px] font-black tracking-[0.8em] uppercase">Scroll</span>
+            <div class="w-[1px] h-12 bg-gradient-to-b from-[#FF4D00] to-transparent"></div>
         </div>
     </main>
 
