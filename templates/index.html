@@ -9,13 +9,11 @@
     <style>
         :root {
             --popup-orange: #FF4D00;
-            --deep-void: #010204;
-            /* Warna Nebula ditingkatkan saturasinya agar 'pecah' keluar dari kegelapan */
-            --nebula-orange: rgba(255, 77, 0, 0.6);
-            --nebula-magenta: rgba(255, 0, 212, 0.45);
-            --nebula-blue: rgba(0, 102, 255, 0.35);
-            --glass: rgba(255, 255, 255, 0.04);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --deep-void: #020305;
+            --nebula-orange: rgba(255, 77, 0, 0.4);
+            --nebula-magenta: rgba(255, 0, 212, 0.25);
+            --glass: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.08);
         }
 
         * { cursor: crosshair; }
@@ -29,227 +27,198 @@
             scroll-behavior: smooth;
         }
 
-        /* --- LAYER 1: THE UNIVERSE SYSTEM (DEEP SPACE) --- */
+        /* --- LAYER 1: THE UNIVERSE SYSTEM (KEY VISUAL) --- */
         .universe-container {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: -10;
-            /* Dasar gradient dibuat lebih kebiruan/ungu tua agar tidak hampa hitam */
-            background: radial-gradient(circle at center, #0f131a 0%, #010204 100%);
+            background: #05070a;
+            overflow: hidden;
         }
 
-        /* Bintang & Debu Kosmik */
-        .stars-layer {
+        /*  */
+        /* Planet Utama (Center-Right Centerpiece) */
+        .planetary-body {
+            position: absolute;
+            top: 15%; right: -15%;
+            width: 80vw; height: 80vw;
+            background: radial-gradient(circle at 30% 30%, #FF4D00 0%, #1a0f0a 50%, #05070a 80%);
+            border-radius: 50%;
+            filter: blur(2px);
+            opacity: 0.9;
+            z-index: 1;
+        }
+
+        /* Pendaran Atmosfer Planet */
+        .planetary-glow {
+            position: absolute;
+            top: 5%; right: -25%;
+            width: 100vw; height: 100vw;
+            background: radial-gradient(circle, rgba(255, 77, 0, 0.12) 0%, transparent 70%);
+            filter: blur(120px);
+            z-index: 0;
+        }
+
+        /* Shadow Overlay Kiri (Untuk Ketajaman Headline) */
+        .left-shadow-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, 
+                rgba(2, 3, 5, 1) 0%, 
+                rgba(2, 3, 5, 0.8) 30%, 
+                rgba(2, 3, 5, 0) 70%
+            );
+            z-index: 5;
+        }
+
+        /* Dark Overlay Global (45%) */
+        .global-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 4;
+        }
+
+        /* Stars & Cosmic Dust */
+        .stars {
             position: absolute;
             inset: 0;
             background-image: 
-                radial-gradient(1.5px 1.5px at 10% 20%, #fff, transparent),
-                radial-gradient(2px 2px at 50% 50%, rgba(255,255,255,0.9), transparent),
-                radial-gradient(2.5px 2.5px at 80% 80%, var(--popup-orange), transparent),
-                radial-gradient(1.5px 1.5px at 30% 70%, #ff00d4, transparent),
-                radial-gradient(1px 1px at 70% 30%, #0066ff, transparent);
+                radial-gradient(1.5px 1.5px at 20% 30%, #fff, transparent),
+                radial-gradient(1px 1px at 70% 70%, rgba(255,255,255,0.8), transparent),
+                radial-gradient(2px 2px at 40% 80%, var(--popup-orange), transparent);
             background-size: 300px 300px;
-            opacity: 0.65;
-            animation: twinkle 12s linear infinite;
+            opacity: 0.3;
+            z-index: 2;
         }
 
-        /* --- LAYER 2: NEBULA SUPERNOVA (DIPUSATKAN) --- */
-        .nebula-drift {
-            position: absolute;
-            inset: -10%;
-            filter: blur(90px);
-            opacity: 0.85;
-            mix-blend-mode: screen;
-            animation: cosmicShift 30s ease-in-out infinite;
-        }
-
-        /* Posisi Nebula digeser agar lebih menjorok ke tengah layar */
-        .neb-1 { top: -5%; right: 15%; width: 70%; height: 70%; background: var(--nebula-orange); }
-        .neb-2 { bottom: -5%; left: 15%; width: 65%; height: 65%; background: var(--nebula-magenta); animation-delay: -5s; }
-        .neb-3 { top: 35%; left: 30%; width: 40%; height: 40%; background: var(--nebula-blue); opacity: 0.5; }
-
-        /* --- LAYER 3: PLANETARY HORIZON (THE ANCHOR) --- */
-        .planetary-horizon {
-            position: absolute;
-            bottom: -25%; left: 50%; width: 160%; height: 60%;
-            transform: translateX(-50%);
-            background: radial-gradient(ellipse at center, rgba(255, 77, 0, 0.35) 0%, transparent 75%);
-            border-top: 4px solid rgba(255, 77, 0, 0.7);
-            border-radius: 100% 100% 0 0;
-            filter: blur(25px);
-            z-index: -5;
-            box-shadow: 0 -30px 150px rgba(255, 77, 0, 0.25);
-        }
-
-        /* --- LAYER 4: SHARP UI SYSTEM --- */
+        /* --- LAYER 2: SHARP PRODUCTION UI --- */
         .glass-card {
             background: var(--glass);
-            backdrop-filter: blur(50px);
-            -webkit-backdrop-filter: blur(50px);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
             border: 1px solid var(--glass-border);
             border-radius: 2.5rem;
             transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .glass-card:hover {
-            border-color: var(--popup-orange);
-            background: rgba(255, 77, 0, 0.08);
-            transform: translateY(-15px);
-            box-shadow: 0 50px 100px rgba(0,0,0,0.9);
-        }
-
         .massive-title {
-            font-size: clamp(3.5rem, 12vw, 9rem);
+            font-size: clamp(3.5rem, 12vw, 8.5rem);
             font-weight: 800;
-            line-height: 0.8;
+            line-height: 0.85;
             letter-spacing: -0.06em;
-            background: linear-gradient(180deg, #FFFFFF 30%, rgba(255,255,255,0.1) 100%);
+            background: linear-gradient(180deg, #FFFFFF 40%, rgba(255,255,255,0.15) 100%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            filter: drop-shadow(0 0 30px rgba(255,255,255,0.15));
         }
 
         .btn-sovereign {
             background: var(--popup-orange);
             color: white;
-            padding: 1.5rem 4rem;
+            padding: 1.4rem 3.5rem;
             border-radius: 99px;
             font-weight: 800;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             letter-spacing: 0.3em;
             text-transform: uppercase;
-            box-shadow: 0 10px 50px rgba(255, 77, 0, 0.6);
-            transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1.3);
+            box-shadow: 0 0 40px rgba(255, 77, 0, 0.3);
+            transition: all 0.4s;
         }
 
         .btn-sovereign:hover {
-            transform: scale(1.12) translateY(-8px);
-            box-shadow: 0 20px 80px rgba(255, 77, 0, 0.8);
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 0 60px rgba(255, 77, 0, 0.5);
         }
 
-        @keyframes cosmicShift {
-            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
-            50% { transform: translate(-2%, 4%) scale(1.15) rotate(1.5deg); }
+        /* Subtle Motion */
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-1%, 1.5%); }
         }
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.45; transform: scale(1); }
-            50% { opacity: 0.85; transform: scale(1.05); }
-        }
-
-        #scroll-progress {
-            position: fixed; top: 0; left: 0; height: 4px;
-            background: var(--popup-orange);
-            z-index: 1000; width: 0%;
-        }
+        .animate-drift { animation: drift 30s ease-in-out infinite; }
     </style>
 </head>
 <body onload="checkAuthParams()">
 
-    <div id="scroll-progress"></div>
-
-    <!-- BACKGROUND SYSTEM (REMASTERED & CENTERED) -->
+    <!-- THE UNIVERSE (KEY VISUAL) -->
     <div class="universe-container">
-        <div class="stars-layer"></div>
-        <div class="nebula-drift neb-1"></div>
-        <div class="nebula-drift neb-2"></div>
-        <div class="nebula-drift neb-3"></div>
-        <div class="planetary-horizon"></div>
+        <div class="planetary-glow"></div>
+        <div class="planetary-body animate-drift"></div>
+        <div class="stars"></div>
+        <div class="global-overlay"></div>
+        <div class="left-shadow-overlay"></div>
     </div>
 
     <!-- HEADER SYSTEM -->
-    <header class="fixed top-0 left-0 w-full p-12 flex justify-between items-center z-[100] border-b border-white/10 backdrop-blur-3xl">
-        <div class="flex items-center gap-6 cursor-pointer" onclick="window.location.href='/'">
-            <div class="w-14 h-14 border-2 border-[#FF4D00] rounded-full flex items-center justify-center shadow-[0_0_25px_rgba(255,77,0,0.7)]">
-                <span class="text-[#FF4D00] text-sm font-black">P</span>
+    <header class="fixed top-0 left-0 w-full p-10 flex justify-between items-center z-[100] backdrop-blur-md border-b border-white/5">
+        <div class="flex items-center gap-5 cursor-pointer" onclick="window.location.href='/'">
+            <div class="w-11 h-11 border-2 border-[#FF4D00] rounded-full flex items-center justify-center">
+                <span class="text-[#FF4D00] text-[11px] font-black">P</span>
             </div>
-            <h1 class="text-3xl font-black tracking-tighter uppercase">POPUP<span class="text-[#FF4D00]">.AI</span></h1>
+            <h1 class="text-2xl font-black tracking-tighter uppercase">POPUP<span class="text-[#FF4D00]">.AI</span></h1>
         </div>
-        <nav class="hidden lg:flex gap-20 text-[0.75rem] font-bold tracking-[0.6em] uppercase opacity-60">
+        <nav class="hidden lg:flex gap-16 text-[0.65rem] font-bold tracking-[0.5em] uppercase opacity-40">
             <a href="/" class="text-white hover:text-[#FF4D00] transition-colors">Home</a>
             <a href="/movies" class="hover:opacity-100 transition">Movies</a>
             <a href="#" class="hover:opacity-100 transition">Music</a>
         </nav>
-        <button id="nav-signin" onclick="location.href='/?code=auth'" class="bg-white text-black px-12 py-4 rounded-full text-[0.75rem] font-black tracking-widest uppercase hover:bg-[#FF4D00] hover:text-white transition-all shadow-2xl">Sign In</button>
+        <button id="nav-signin" onclick="location.href='/?code=auth'" class="bg-white text-black px-10 py-3 rounded-full text-[0.65rem] font-black tracking-widest uppercase hover:bg-[#FF4D00] hover:text-white transition-all shadow-2xl">Sign In</button>
     </header>
 
-    <!-- HERO SECTION -->
-    <main class="relative h-screen flex flex-col justify-center px-10 lg:px-32">
-        <div class="max-w-6xl relative z-10">
-            <div class="flex items-center gap-6 mb-12 opacity-80">
-                <div class="h-[3px] w-20 bg-[#FF4D00]"></div>
-                <span class="text-[0.8rem] font-black tracking-[0.8em] uppercase">Living Universe 2.0</span>
+    <!-- CINEMATIC HERO -->
+    <main class="relative h-screen flex flex-col justify-center px-10 lg:px-28 z-20">
+        <div class="max-w-4xl">
+            <div class="flex items-center gap-5 mb-8 opacity-60">
+                <div class="h-[2px] w-12 bg-[#FF4D00]"></div>
+                <span class="text-[0.65rem] font-black tracking-[0.6em] uppercase">Living Universe 2.0</span>
             </div>
-            <h1 class="massive-title mb-16">Enter the<br><span class="text-[#FF4D00]">AI Universe</span></h1>
-            <p class="text-2xl lg:text-4xl opacity-85 font-light tracking-wide max-w-4xl mb-24 leading-relaxed">
-                Platform kedaulatan masa depan. Hidupkan imajinasi Anda dalam harmoni sinematik antara visi manusia dan kecerdasan buatan.
+            <h1 class="massive-title mb-10">Enter the<br><span class="text-[#FF4D00]">AI Universe</span></h1>
+            <p class="text-lg lg:text-2xl opacity-50 font-light tracking-wide max-w-xl mb-16 leading-relaxed">
+                Platform kedaulatan masa depan. Dimana imajinasi Anda hidup di dalam harmoni antara visi manusia dan kecerdasan buatan.
             </p>
-            <div class="flex flex-wrap gap-12">
+            <div class="flex flex-wrap gap-8">
                 <button onclick="document.getElementById('discovery').scrollIntoView({behavior: 'smooth'})" class="btn-sovereign">Explore Platform</button>
-                <button class="px-14 py-6 rounded-full text-[0.8rem] font-bold tracking-[0.5em] uppercase border-2 border-white/20 hover:bg-white hover:text-black transition-all backdrop-blur-xl">Become Creator</button>
+                <button class="px-11 py-5 rounded-full text-[0.7rem] font-bold tracking-[0.3em] uppercase border border-white/10 hover:bg-white hover:text-black transition-all backdrop-blur-md">Become Creator</button>
             </div>
         </div>
 
-        <!-- Scroll Indicator -->
-        <div class="absolute bottom-20 left-1/2 -translate-x-1/2 flex flex-col items-center gap-8 opacity-60 animate-bounce">
-            <span class="text-[11px] font-black tracking-[2em] uppercase">Scroll</span>
-            <div class="w-[3px] h-20 bg-gradient-to-b from-[#FF4D00] to-transparent"></div>
+        <div class="absolute bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center gap-6 opacity-30 animate-bounce">
+            <span class="text-[9px] font-black tracking-[1.5em] uppercase">Scroll</span>
+            <div class="w-[1.5px] h-16 bg-gradient-to-b from-[#FF4D00] to-transparent"></div>
         </div>
     </main>
 
-    <!-- DISCOVERY GRID -->
-    <section id="discovery" class="px-10 lg:px-32 py-80 grid grid-cols-12 gap-16 relative">
-        <div class="col-span-12 mb-24 flex items-center gap-12">
-            <h2 class="text-lg font-black tracking-[2em] uppercase text-[#FF4D00]">Planetary Discovery</h2>
-            <div class="h-[1px] flex-grow bg-white/20"></div>
+    <!-- BENTO GRID (THE DISCOVERY) -->
+    <section id="discovery" class="px-10 lg:px-28 py-60 grid grid-cols-12 gap-10 relative z-20">
+        <div class="col-span-12 mb-20 flex items-center gap-10">
+            <h2 class="text-xs font-black tracking-[1.2em] uppercase text-[#FF4D00]">Planetary Discovery</h2>
+            <div class="h-[1px] flex-grow bg-white/10"></div>
         </div>
         
-        <!-- Big Bento -->
-        <div class="col-span-12 lg:col-span-8 h-[750px] glass-card p-20 flex flex-col justify-end relative overflow-hidden group">
-            <div class="absolute inset-0 bg-gradient-to-t from-[#FF4D00]/30 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-1000"></div>
+        <div class="col-span-12 lg:col-span-8 h-[600px] glass-card p-16 flex flex-col justify-end relative overflow-hidden group">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#FF4D00]/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-1000"></div>
             <div class="relative z-10">
-                <span class="text-[0.8rem] font-bold tracking-widest text-[#FF4D00] mb-8 block">FEATURED EXPERIENCE</span>
-                <h3 class="text-8xl font-black mb-8 tracking-tighter">Planetary Horizon</h3>
-                <p class="opacity-60 text-base max-w-lg leading-relaxed uppercase tracking-[0.6em]">Visualisasi Alpha Mirai 2.0 yang presisi dan immersive.</p>
+                <span class="text-[0.7rem] font-bold tracking-widest text-[#FF4D00] mb-5 block">FEATURED EXPERIENCE</span>
+                <h3 class="text-6xl font-black mb-6 tracking-tighter">Planetary Horizon</h3>
+                <p class="opacity-40 text-sm max-w-sm leading-relaxed uppercase tracking-[0.4em]">Visualisasi Alpha Mirai yang tajam dan sinematik.</p>
             </div>
         </div>
 
-        <!-- Live Signal -->
-        <div class="col-span-12 lg:col-span-4 h-[750px] glass-card p-12 flex flex-col items-center justify-center text-center gap-20 group">
-            <div class="relative">
-                <div class="w-40 h-40 rounded-full border-4 border-orange-500/30 flex items-center justify-center group-hover:border-[#FF4D00] transition-all duration-700">
-                    <div class="w-24 h-24 bg-[#FF4D00] rounded-full animate-pulse shadow-[0_0_80px_rgba(255,77,0,0.7)]"></div>
-                </div>
-                <div class="absolute -top-4 -right-4 bg-red-600 text-xs font-bold px-5 py-2 rounded-sm shadow-2xl">LIVE</div>
+        <div class="col-span-12 lg:col-span-4 h-[600px] glass-card p-12 flex flex-col items-center justify-center text-center gap-12 group">
+            <div class="w-28 h-28 rounded-full border border-orange-500/15 flex items-center justify-center group-hover:border-[#FF4D00] transition-all duration-500">
+                <div class="w-18 h-18 bg-[#FF4D00] rounded-full animate-pulse shadow-[0_0_50px_rgba(255,77,0,0.4)]"></div>
             </div>
             <div>
-                <h3 class="text-4xl font-black mb-6 tracking-tighter uppercase">Global Signal</h3>
-                <p class="text-[0.8rem] opacity-50 leading-relaxed tracking-[0.5em] uppercase">Sinyal Peradaban Aktif<br>SAS Authority Core</p>
+                <h3 class="text-3xl font-black mb-4 tracking-tighter uppercase">Global Signal</h3>
+                <p class="text-[0.65rem] opacity-30 leading-relaxed tracking-[0.3em] uppercase">Sinyal Peradaban Aktif<br>SAS Authority Core</p>
             </div>
-        </div>
-
-        <!-- Engine Stats -->
-        <div class="col-span-12 lg:col-span-4 h-[500px] glass-card p-20 flex flex-col justify-between group">
-            <span class="text-[0.8rem] font-black tracking-[0.8em] text-[#FF4D00]">ENGINE STATUS</span>
-            <div class="text-[10rem] font-black tracking-tighter group-hover:text-[#FF4D00] transition-colors">99.9%</div>
-            <p class="opacity-50 text-[0.8rem] uppercase tracking-[0.6em]">Stabilitas Kedaulatan Platform</p>
-        </div>
-
-        <!-- Music Feature -->
-        <div class="col-span-12 lg:col-span-8 h-[500px] glass-card p-20 flex items-center justify-between group overflow-hidden">
-            <div class="max-w-xl relative z-10">
-                <h3 class="text-6xl font-black mb-10 tracking-tighter">Sovereign Music</h3>
-                <p class="opacity-50 text-base leading-relaxed uppercase tracking-[0.5em]">Dukungan penuh untuk perjuangan Musik & Kuliner Serashii. Segera hadir sebagai pilar harmoni peradaban.</p>
-            </div>
-            <div class="text-[20rem] font-black opacity-[0.04] absolute -right-20 -bottom-20 group-hover:opacity-20 group-hover:text-[#FF4D00] transition-all duration-1000">02</div>
         </div>
     </section>
 
-    <!-- FOOTER SYSTEM -->
-    <footer class="p-60 border-t border-white/10 bg-black/80 text-center relative">
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-[3px] bg-gradient-to-r from-transparent via-[#FF4D00] to-transparent"></div>
-        <p class="text-[1rem] font-bold opacity-40 tracking-[3em] uppercase mb-12">Serashii Anchor the Sovereign</p>
-        <p class="text-[0.7rem] opacity-20 tracking-[1.5em] uppercase">&copy; 2026 POPUP.AI | Pop Up Your World</p>
+    <footer class="p-32 border-t border-white/5 bg-black/60 text-center relative z-20">
+        <p class="text-[0.8rem] font-bold opacity-30 tracking-[2em] uppercase mb-6">Serashii Anchor the Sovereign</p>
+        <p class="text-[0.6rem] opacity-10 tracking-[0.7em] uppercase">&copy; 2026 POPUP.AI | Pop Up Your World</p>
     </footer>
 
     <script>
@@ -263,34 +232,18 @@
             }
         }
 
-        // SCROLL ENGINE (PARALLAX & DEPTH)
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
-            const height = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = (scrolled / height) * 100;
-            const progressEl = document.getElementById('scroll-progress');
-            if(progressEl) progressEl.style.width = progress + "%";
-
-            // Title Motion (Hanya posisi, tidak ada scaling)
             const title = document.querySelector('.massive-title');
+            const planet = document.querySelector('.planetary-body');
+            
             if(title) {
-                title.style.transform = `translateY(${scrolled * 0.35}px)`;
-                title.style.opacity = 1 - (scrolled * 0.001);
+                title.style.transform = `translateY(${scrolled * 0.3}px)`;
+                title.style.opacity = 1 - (scrolled * 0.0015);
             }
-
-            // Planetary Horizon Effect
-            const horizon = document.querySelector('.planetary-horizon');
-            if(horizon) {
-                horizon.style.transform = `translateX(-50%) translateY(${scrolled * 0.2}px)`;
-                horizon.style.opacity = 0.6 + (scrolled * 0.0005);
+            if(planet) {
+                planet.style.transform = `translateY(${scrolled * 0.15}px)`;
             }
-
-            // Nebula Parallax
-            const nebulae = document.querySelectorAll('.nebula-drift');
-            nebulae.forEach((neb, i) => {
-                const speed = (i + 1) * 0.12;
-                neb.style.transform = `translateY(${scrolled * speed}px) rotate(${scrolled * 0.025}deg)`;
-            });
         });
     </script>
 </body>
