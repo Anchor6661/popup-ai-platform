@@ -26,7 +26,7 @@ def check_asset_ready():
 @app.route('/')
 def home():
     # Mengirimkan nama file target ke index.html
-    return render_template('index.html', bg_image=TARGET_IMAGE)
+    return render_template('index.html', bg_image='dreamina-orbit.jpg')
 
 @app.route('/movies')
 def movies_page():
