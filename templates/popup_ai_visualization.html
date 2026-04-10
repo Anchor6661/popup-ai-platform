@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POPUP.AI | Enter the AI Universe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --popup-orange: #FF4D00;
+            --deep-void: #010204;
+        }
+
+        body {
+            background-color: var(--deep-void);
+            color: white;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* --- KUNCI VISUAL: BACKGROUND 8K ASLI --- */
+        .hero-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            /* Memanggil file 8K lokal di folder yang sama */
+            background-image: 
+                linear-gradient(to right, rgba(1, 2, 4, 0.95) 10%, rgba(1, 2, 4, 0.3) 50%, rgba(1, 2, 4, 0) 100%),
+                linear-gradient(to top, rgba(1, 2, 4, 0.85) 0%, transparent 40%),
+                url('./dreamina-2026-04-10-9380.jpg'); 
+            background-size: cover;
+            background-position: center right;
+            background-attachment: fixed;
+            filter: contrast(1.05) brightness(0.95);
+        }
+
+        /* Atmosfer Orange Khas Popup */
+        .atmosphere-glow {
+            position: fixed;
+            top: 50%;
+            right: -5%;
+            transform: translateY(-50%);
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(255, 77, 0, 0.12) 0%, transparent 70%);
+            filter: blur(120px);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- BRAND WORDMARK (2 TONE - NO ICON) --- */
+        .brand-logo {
+            font-size: 1.6rem;
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            text-transform: uppercase;
+            font-style: italic;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        .hero-title {
+            font-size: clamp(3rem, 10vw, 7.5rem);
+            line-height: 0.85;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+        }
+
+        /* --- BUTTONS --- */
+        .btn-orange {
+            background-color: var(--popup-orange);
+            box-shadow: 0 0 35px rgba(255, 77, 0, 0.4);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .btn-orange:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 0 55px rgba(255, 77, 0, 0.6);
+        }
+
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        /* --- PRICING CARDS --- */
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 2.8rem;
+            padding: 3.5rem 2.5rem;
+            transition: all 0.5s ease;
+        }
+        .pricing-card:hover {
+            transform: translateY(-12px);
+            border-color: var(--popup-orange);
+            background: rgba(255, 77, 0, 0.03);
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: var(--popup-orange); border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <!-- LAYER LATAR BELAKANG -->
+    <div class="hero-background"></div>
+    <div class="atmosphere-glow"></div>
+
+    <!-- NAVIGATION -->
+    <nav class="fixed top-0 left-0 w-full z-[100] px-6 py-8 md:px-12 flex justify-between items-center backdrop-blur-md border-b border-white/5">
+        <div class="brand-logo">
+            <span>POPUP</span><span class="text-[#FF4D00]">.AI</span>
+        </div>
+        
+        <div class="hidden md:flex gap-14 text-[11px] font-bold uppercase tracking-[0.4em] text-white/50">
+            <a href="#" class="hover:text-white transition-colors">Home</a>
+            <a href="#" class="hover:text-white transition-colors">Movies</a>
+            <a href="#" class="hover:text-white transition-colors">Music</a>
+        </div>
+
+        <button class="bg-white text-black px-10 py-3 rounded-full text-[10px] font-black uppercase tracking-widest shadow-xl hover:bg-[#FF4D00] hover:text-white transition-all active:scale-95">
+            Sign In / Join
+        </button>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="min-h-screen flex flex-col justify-center px-6 md:px-24 relative">
+        <div class="max-w-4xl">
+            <h1 class="hero-title mb-6">
+                Enter the<br>
+                <span class="text-white">AI Universe</span>
+            </h1>
+            
+            <p class="text-xl md:text-2xl text-white/50 font-light max-w-xl leading-relaxed mb-14">
+                Where creators bring worlds to life. Platform kedaulatan untuk <span class="text-white/80 font-medium">dunia</span> baru.
+            </p>
+
+            <div class="flex flex-wrap gap-8 items-center">
+                <button class="btn-orange px-14 py-4 rounded-full text-[11px] font-black uppercase tracking-[0.3em] text-white">
+                    Enter Platform
+                </button>
+                <button class="btn-outline px-14 py-4 rounded-full text-[11px] font-black uppercase tracking-[0.3em] text-white">
+                    Become Creator
+                </button>
+            </div>
+        </div>
+
+        <!-- Indikator Scroll -->
+        <div class="absolute bottom-12 left-24 flex items-center gap-4 opacity-20">
+            <div class="h-24 w-[1px] bg-gradient-to-b from-white to-transparent"></div>
+            <span class="text-[8px] font-bold tracking-[0.6em] uppercase" style="writing-mode: vertical-rl;">Scroll</span>
+        </div>
+    </section>
+
+    <!-- PRICING SECTION -->
+    <section class="py-48 px-6 md:px-12 relative bg-[#010204]/80 backdrop-blur-3xl border-t border-white/5">
+        <div class="text-center mb-28">
+            <h2 class="text-5xl font-extrabold italic mb-6 tracking-tight">Pilih Orbit Anda</h2>
+            <div class="h-1 w-16 bg-[#FF4D00] mx-auto mb-6"></div>
+            <p class="text-[11px] font-bold text-white/30 tracking-[0.4em] uppercase">Ekonomi Berdaulat untuk Kreator</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-7xl mx-auto">
+            <!-- Explorer -->
+            <div class="pricing-card flex flex-col">
+                <div class="mb-12">
+                    <h3 class="text-2xl font-bold mb-3">Explorer</h3>
+                    <div class="flex items-baseline gap-1">
+                        <span class="text-5xl font-extrabold">Rp 0</span>
+                    </div>
+                </div>
+                <ul class="space-y-6 mb-14 flex-grow text-sm text-white/40">
+                    <li>✦ Upload Film/Musik/Podcast</li>
+                    <li>✦ Monetisasi via Views</li>
+                    <li>✦ Kualitas Streaming 1080p</li>
+                    <li>✦ Akses Komunitas</li>
+                </ul>
+                <button class="w-full py-5 border border-white/10 rounded-2xl font-bold text-[11px] tracking-widest uppercase hover:bg-white hover:text-black transition-all">Start Free</button>
+            </div>
+
+            <!-- Creator -->
+            <div class="pricing-card flex flex-col border-[#FF4D00]/40 bg-[#FF4D00]/[0.02]">
+                <div class="mb-12">
+                    <h3 class="text-2xl font-bold mb-3 flex items-center gap-3 text-[#FF4D00]">Creator 🔥</h3>
+                    <div class="flex items-baseline gap-1">
+                        <span class="text-5xl font-extrabold">Rp 199rb</span>
+                        <span class="text-white/30 text-xs">/bln</span>
+                    </div>
+                </div>
+                <ul class="space-y-6 mb-14 flex-grow text-sm">
+                    <li class="text-[#FF4D00] font-bold">✦ Lumia Engine Optimization</li>
+                    <li class="text-white/70">✦ Prioritas Algoritma Feed</li>
+                    <li class="text-white/70">✦ Penyimpanan 25GB/bln</li>
+                    <li class="text-white/70">✦ Custom Brand Identity</li>
+                </ul>
+                <button class="w-full py-5 bg-gradient-to-r from-[#FF4D00] to-[#FF8000] rounded-2xl font-black text-[11px] tracking-widest uppercase text-white shadow-2xl active:scale-95 transition-all">Subscribe Now</button>
+            </div>
+
+            <!-- Studio -->
+            <div class="pricing-card flex flex-col">
+                <div class="mb-12">
+                    <h3 class="text-2xl font-bold mb-3">Studio</h3>
+                    <div class="flex items-baseline gap-1">
+                        <span class="text-5xl font-extrabold">Rp 399rb</span>
+                        <span class="text-white/30 text-xs">/bln</span>
+                    </div>
+                </div>
+                <ul class="space-y-6 mb-14 flex-grow text-sm text-white/40">
+                    <li class="font-bold text-white/80">✦ Fitur Jual (Marketplace)</li>
+                    <li>✦ Bagi Hasil 70/30</li>
+                    <li>✦ Penyimpanan Unlimited</li>
+                    <li>✦ Akun Tim Multi-User</li>
+                </ul>
+                <button class="w-full py-5 bg-white text-black rounded-2xl font-black text-[11px] tracking-widest uppercase active:scale-95 hover:bg-[#FF4D00] hover:text-white transition-all">Go Studio</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER SERASHII -->
+    <footer class="py-32 border-t border-white/5 bg-[#000] flex flex-col items-center">
+        <div class="text-[15px] font-bold tracking-[1.4em] text-white/20 uppercase mb-10 text-center italic">SERASHII ANCHOR THE SOVEREIGN</div>
+        <div class="text-[9px] font-bold tracking-[0.6em] text-white/10 uppercase">© 2026 POPUP.AI | POP UP YOUR WORLD</div>
+    </footer>
+
+</body>
+</html>
