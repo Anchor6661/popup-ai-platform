@@ -20,7 +20,6 @@
         object-fit: cover; 
         display: block;
         filter: contrast(1.1) brightness(0.9);
-        /* Memastikan gambar muncul instan */
         opacity: 1 !important; 
         transition: opacity 0.5s ease;
     }
@@ -49,7 +48,6 @@
         -webkit-text-fill-color: transparent;
     }
 
-    /* Notifikasi Status di Pojok */
     #orbit-status {
         position: fixed;
         bottom: 20px;
@@ -72,8 +70,8 @@
 
 <!-- BACKGROUND ENGINE -->
 <div id="hero-bg">
-    <!-- PERBAIKAN: Menggunakan filter default Jinja2 agar lebih stabil dan cache buster dinamis -->
-    <img src="{{ url_for('static', filename=bg_image|default('dreamina-orbit.jpg')) }}?v=4.0" 
+    <!-- PERBAIKAN FINAL: Menggunakan variabel yang sudah dijamin ada oleh app.py -->
+    <img src="{{ url_for('static', filename=bg_image) }}" 
          id="main-bg"
          onerror="this.src='https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=2000'; document.getElementById('sync-text').innerText = 'Cloud Aktif';"
          alt="8K Universe Background">
@@ -95,7 +93,7 @@
             Enter the <br><span class="orbit-gradient-text">AI Universe.</span>
         </h1>
         <p class="text-xl md:text-2xl text-white/50 font-light max-w-2xl leading-relaxed mb-14">
-            Sistem navigasi telah diperbaiki. Jika gambar belum muncul, silakan tekan <span class="text-white font-bold italic underline">CTRL + F5</span> pada browser Anda untuk membersihkan cache.
+            Sistem navigasi telah dipulihkan. Visual planet 8K kini terkoneksi secara harmonis dengan inti mesin Flask Anda.
         </p>
         <button class="bg-[#FF4D00] px-20 py-6 rounded-full text-[12px] font-black uppercase tracking-[0.3em] text-white shadow-2xl hover:bg-orange-500 transition-all">
             Luncurkan Universe
@@ -108,21 +106,15 @@
     const syncText = document.getElementById('sync-text');
 
     // Deteksi apakah Flask memproses file ini dengan benar
-    // Kami memeriksa apakah string '{{' masih ada di URL gambar
     if (img.src.includes('%7B%7B') || img.src.includes('{{')) {
-        console.error("POPUP.AI ERROR: Mesin Flask belum memproses file ini. Pastikan Anda membuka via http://127.0.0.1:5000");
-        syncText.innerText = "Mode Statis Terdeteksi";
+        console.error("POPUP.AI ERROR: Mesin Flask belum memproses file ini.");
+        syncText.innerText = "Mode Statis (Error)";
         syncText.classList.replace('text-orange-500', 'text-red-500');
-        
-        // Fallback manual jika dibuka secara statis agar preview tetap cantik
-        if (window.location.protocol === 'file:') {
-            img.src = "../static/dreamina-orbit.jpg";
-        }
     } else {
         img.onload = () => {
             syncText.innerText = "Stabil & Live";
             syncText.classList.replace('text-orange-500', 'text-green-500');
-            console.log("%c POPUP.AI | ORBIT STABIL ", "background: #FF4D00; color: #000; font-weight: bold; padding: 5px;");
+            console.log("%c POPUP.AI | ORBIT STABLE ", "background: #FF4D00; color: #000; font-weight: bold; padding: 5px;");
         };
     }
 </script>
