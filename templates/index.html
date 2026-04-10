@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SAS PLATFORM | Enter the AI Universe</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;600;800&family=Urbanist:ital,wght@1,900&display=swap" rel="stylesheet">
     
-    <!-- Link Favicon -->
     <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
     <link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
 
@@ -15,10 +14,9 @@
         :root {
             --popup-orange: #FF4D00;
             --deep-void: #010204;
-            --planet-rim: rgba(255, 77, 0, 0.6);
-            --nebula-magenta: rgba(255, 0, 212, 0.15);
+            --planet-rim: rgba(255, 77, 0, 0.7);
             --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.08);
         }
 
         * { cursor: crosshair; }
@@ -32,243 +30,255 @@
             scroll-behavior: smooth;
         }
 
-        /* --- LAYER 1: THE UNIVERSE SYSTEM (KEY VISUAL) --- */
+        /* --- THE UNIVERSE SYSTEM --- */
         .universe-viewport {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: -10;
-            background: radial-gradient(circle at 70% 50%, #0d111a 0%, var(--deep-void) 100%);
-            overflow: hidden;
+            background: radial-gradient(circle at 75% 50%, #0d111a 0%, var(--deep-void) 100%);
         }
 
-        /*  - Planet dengan Cahaya Tepi (Rim Lighting) */
         .planet-centerpiece {
             position: absolute;
-            top: 50%; right: -15vw;
+            top: 50%; right: -12vw;
             transform: translateY(-50%);
-            width: 85vw; height: 85vw;
-            background: radial-gradient(circle at 25% 35%, 
-                #FF4D00 0%, 
-                #1a0f0a 35%, 
-                #000 65%
+            width: 80vw; height: 80vw;
+            background: radial-gradient(circle at 30% 30%, 
+                var(--popup-orange) 0%, 
+                #1a0f0a 30%, 
+                #000 60%
             );
             border-radius: 50%;
             z-index: 1;
-            /* Rim Lighting agar planet 'pecah' keluar dari background */
             box-shadow: 
-                -10px 0 60px var(--planet-rim),
-                inset -30px 0 100px rgba(0,0,0,1);
+                -15px 0 70px var(--planet-rim),
+                inset -50px 0 120px rgba(0,0,0,1);
+            filter: drop-shadow(0 0 80px rgba(255, 77, 0, 0.15));
         }
 
-        /* Pendaran Cahaya Atmosfer Planet */
-        .cosmic-haze {
+        .cosmic-dust {
             position: absolute;
-            top: 50%; right: -20vw;
-            transform: translateY(-50%);
-            width: 100vw; height: 100vw;
-            background: radial-gradient(circle, rgba(255, 77, 0, 0.15) 0%, transparent 70%);
-            filter: blur(120px);
-            z-index: 0;
-            mix-blend-mode: screen;
+            inset: 0;
+            background-image: 
+                radial-gradient(1px 1px at 20% 30%, #fff, transparent),
+                radial-gradient(1.5px 1.5px at 50% 70%, var(--popup-orange), transparent),
+                radial-gradient(1px 1px at 80% 40%, rgba(255,255,255,0.5), transparent);
+            background-size: 400px 400px;
+            opacity: 0.2;
+            z-index: 2;
         }
 
-        /* Shroud Kiri (Gradient Gelap Tajam untuk Headline) */
         .left-shroud {
             position: absolute;
             inset: 0;
             background: linear-gradient(to right, 
                 rgba(1, 2, 4, 1) 0%, 
-                rgba(1, 2, 4, 0.95) 30%, 
-                rgba(1, 2, 4, 0.6) 55%,
-                rgba(1, 2, 4, 0) 85%
+                rgba(1, 2, 4, 0.9) 35%, 
+                rgba(1, 2, 4, 0) 80%
             );
             z-index: 5;
         }
 
-        /* Global Overlay (50% Dimmer - Immersive) */
-        .global-dimmer {
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 4;
-        }
-
-        /* Bintang-bintang Tekstur */
-        .stars {
-            position: absolute;
-            inset: 0;
-            background-image: 
-                radial-gradient(1.5px 1.5px at 15% 25%, #fff, transparent),
-                radial-gradient(1px 1px at 65% 65%, rgba(255,255,255,0.7), transparent),
-                radial-gradient(2px 2px at 35% 85%, var(--popup-orange), transparent);
-            background-size: 350px 350px;
-            opacity: 0.3;
-            z-index: 2;
-        }
-
-        /* --- LAYER 2: SHARP PRODUCTION UI --- */
+        /* --- UI COMPONENTS --- */
         .massive-title {
-            font-size: clamp(3.5rem, 11vw, 8.5rem);
-            font-weight: 800;
-            line-height: 0.85;
+            font-family: 'Urbanist', sans-serif;
+            font-style: italic;
+            font-size: clamp(4rem, 13vw, 11rem);
+            font-weight: 900;
+            line-height: 0.75;
             letter-spacing: -0.06em;
-            background: linear-gradient(180deg, #FFFFFF 45%, rgba(255,255,255,0.2) 100%);
+            background: linear-gradient(180deg, #FFFFFF 50%, rgba(255,255,255,0.2) 100%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            text-transform: uppercase;
         }
 
-        .btn-sovereign {
+        .btn-orbit {
             background: var(--popup-orange);
             color: white;
-            padding: 1.4rem 3.8rem;
+            padding: 1.5rem 4rem;
             border-radius: 99px;
             font-weight: 800;
-            font-size: 0.75rem;
-            letter-spacing: 0.3em;
+            font-size: 0.7rem;
+            letter-spacing: 0.4em;
             text-transform: uppercase;
-            box-shadow: 0 0 40px rgba(255, 77, 0, 0.35);
-            transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1.2);
+            box-shadow: 0 0 50px rgba(255, 77, 0, 0.3);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .btn-sovereign:hover {
-            transform: scale(1.06) translateY(-4px);
-            box-shadow: 0 0 60px rgba(255, 77, 0, 0.55);
+        .btn-orbit:hover {
+            transform: scale(1.05) translateX(10px);
+            box-shadow: 0 0 70px rgba(255, 77, 0, 0.5);
+            background: white;
+            color: black;
         }
 
         .glass-card {
             background: var(--glass);
-            backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
+            backdrop-filter: blur(50px);
+            -webkit-backdrop-filter: blur(50px);
             border: 1px solid var(--glass-border);
-            border-radius: 2.8rem;
-            transition: all 0.6s ease;
+            border-radius: 3rem;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .glass-card:hover {
             border-color: var(--popup-orange);
-            background: rgba(255, 77, 0, 0.05);
-            transform: translateY(-8px);
+            background: rgba(255, 77, 0, 0.04);
+            transform: translateY(-15px) scale(1.02);
         }
 
-        /* Animasi drift planet yang sangat halus */
-        @keyframes subtleDrift {
-            0%, 100% { transform: translateY(-50%) scale(1); }
-            50% { transform: translateY(-51.5%) scale(1.02); }
+        /* Smooth Breathing */
+        @keyframes orbit-breath {
+            0%, 100% { transform: translateY(-50%) scale(1); filter: brightness(0.9); }
+            50% { transform: translateY(-52%) scale(1.04); filter: brightness(1.1); }
         }
-        .animate-cosmic { animation: subtleDrift 45s ease-in-out infinite; }
+        .animate-orbit { animation: orbit-breath 12s ease-in-out infinite; }
+
+        .nav-link {
+            font-size: 0.6rem;
+            font-weight: 800;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            opacity: 0.4;
+            transition: all 0.4s;
+        }
+        .nav-link:hover { opacity: 1; color: var(--popup-orange); }
+
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-thumb { background: var(--popup-orange); }
     </style>
 </head>
-<body onload="checkAuthParams()">
+<body>
 
-    <!-- THE UNIVERSE (KEY VISUAL) -->
     <div class="universe-viewport">
-        <div class="cosmic-haze"></div>
-        <div class="planet-centerpiece animate-cosmic"></div>
-        <div class="stars"></div>
-        <div class="global-dimmer"></div>
+        <div class="planet-centerpiece animate-orbit"></div>
+        <div class="cosmic-dust"></div>
         <div class="left-shroud"></div>
     </div>
 
-    <!-- HEADER SYSTEM -->
-    <header class="fixed top-0 left-0 w-full p-10 flex justify-between items-center z-[100] backdrop-blur-md border-b border-white/5">
-        <div class="flex items-center gap-5 cursor-pointer" onclick="window.location.href='/'">
-            <div class="w-11 h-11 border-2 border-[#FF4D00] rounded-full flex items-center justify-center">
-                <span class="text-[#FF4D00] text-[11px] font-black">P</span>
+    <header class="fixed top-0 left-0 w-full p-10 flex justify-between items-center z-[100] border-b border-white/5 backdrop-blur-xl">
+        <div class="flex items-center gap-6 cursor-pointer" onclick="window.location.reload()">
+            <div class="w-12 h-12 border-2 border-[#FF4D00] rounded-2xl flex items-center justify-center rotate-3 hover:rotate-0 transition-transform duration-500">
+                <span class="text-[#FF4D00] text-sm font-black italic">P</span>
             </div>
-            <h1 class="text-2xl font-black tracking-tighter uppercase">POPUP<span class="text-[#FF4D00]">.AI</span></h1>
+            <h1 class="text-2xl font-black tracking-tighter uppercase italic">POPUP<span class="text-[#FF4D00]">.AI</span></h1>
         </div>
-        <nav class="hidden lg:flex gap-16 text-[0.65rem] font-bold tracking-[0.5em] uppercase opacity-40">
-            <a href="/" class="text-white hover:text-[#FF4D00] transition-colors">Home</a>
-            <a href="/movies" class="hover:opacity-100 transition">Movies</a>
-            <a href="#" class="hover:opacity-100 transition">Music</a>
+        
+        <nav class="hidden lg:flex gap-20">
+            <a href="#" class="nav-link text-[#FF4D00] opacity-100">Home</a>
+            <a href="/movies" class="nav-link">Cinema</a>
+            <a href="#" class="nav-link">Music</a>
+            <a href="#" class="nav-link">Voices</a>
         </nav>
-        <button id="nav-signin" onclick="location.href='/?code=auth'" class="bg-white text-black px-10 py-3 rounded-full text-[0.65rem] font-black tracking-widest uppercase hover:bg-[#FF4D00] hover:text-white transition-all shadow-2xl">Sign In</button>
+
+        <button id="nav-signin" class="bg-white text-black px-12 py-3.5 rounded-full text-[0.6rem] font-black tracking-[0.3em] uppercase hover:bg-[#FF4D00] hover:text-white transition-all shadow-xl active:scale-95">
+            Sign In
+        </button>
     </header>
 
-    <!-- HERO SECTION -->
-    <main class="relative h-screen flex flex-col justify-center px-10 lg:px-28 z-20">
-        <div class="max-w-4xl">
-            <div class="flex items-center gap-5 mb-8 opacity-60">
-                <div class="h-[2px] w-12 bg-[#FF4D00]"></div>
-                <span class="text-[0.65rem] font-black tracking-[0.6em] uppercase">Living Universe 2.0</span>
+    <section class="relative h-screen flex flex-col justify-center px-10 lg:px-32 z-20">
+        <div class="max-w-6xl">
+            <div class="flex items-center gap-6 mb-10 overflow-hidden">
+                <div class="h-[1px] w-20 bg-[#FF4D00]/50 animate-[slideRight_2s_infinite]"></div>
+                <span class="text-[0.6rem] font-black tracking-[0.8em] uppercase text-orange-500/80">Alpha Edition 2026</span>
             </div>
-            <h1 class="massive-title mb-10">Enter the<br><span class="text-[#FF4D00]">AI Universe</span></h1>
-            <p class="text-xl lg:text-2xl opacity-50 font-light tracking-wide max-w-xl mb-16 leading-relaxed">
-                Platform kedaulatan masa depan. Hidupkan imajinasi Anda dalam harmoni sinematik antara visi manusia dan kecerdasan buatan.
+            
+            <h1 class="massive-title">EXPLORE THE<br><span class="text-[#FF4D00]">AI PLANET</span></h1>
+            
+            <p class="text-xl lg:text-2xl opacity-40 font-light tracking-wide max-w-2xl mt-12 mb-20 leading-relaxed">
+                Platform kedaulatan untuk kreator masa depan. Bangun universe Anda sendiri dalam harmoni visi manusia dan kecerdasan buatan.
             </p>
-            <div class="flex flex-wrap gap-8">
-                <button onclick="document.getElementById('discovery').scrollIntoView({behavior: 'smooth'})" class="btn-sovereign">Explore Platform</button>
-                <button class="px-11 py-5 rounded-full text-[0.7rem] font-bold tracking-[0.3em] uppercase border border-white/10 hover:bg-white hover:text-black transition-all backdrop-blur-md">Become Creator</button>
+
+            <div class="flex flex-wrap gap-10 items-center">
+                <button onclick="document.getElementById('discovery').scrollIntoView({behavior: 'smooth'})" class="btn-orbit">
+                    Launch Universe
+                </button>
+                <div class="flex flex-col">
+                    <span class="text-[10px] font-black tracking-widest text-white/20 uppercase mb-2">Platform Status</span>
+                    <span class="text-xs font-bold text-green-500 flex items-center gap-2">
+                        <span class="w-2 h-2 bg-green-500 rounded-full animate-ping"></span>
+                        SYSTEMS ONLINE
+                    </span>
+                </div>
             </div>
         </div>
-        
-        <!-- Scroll Hint -->
-        <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-30 animate-bounce">
-            <span class="text-[8px] font-black tracking-[0.8em] uppercase">Scroll</span>
-            <div class="w-[1px] h-12 bg-gradient-to-b from-[#FF4D00] to-transparent"></div>
-        </div>
-    </main>
 
-    <!-- BENTO DISCOVERY HUB -->
-    <section id="discovery" class="px-10 lg:px-28 py-60 grid grid-cols-12 gap-12 relative z-20">
-        <div class="col-span-12 mb-20 flex items-center gap-10">
-            <h2 class="text-xs font-black tracking-[1.5em] uppercase text-[#FF4D00]">Planetary Discovery</h2>
-            <div class="h-[1px] flex-grow bg-white/10"></div>
+        <div class="absolute bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center gap-6 opacity-20">
+            <div class="w-[1px] h-20 bg-gradient-to-t from-[#FF4D00] to-transparent"></div>
         </div>
-        
-        <!-- Big Bento Card -->
-        <div class="col-span-12 lg:col-span-8 h-[600px] glass-card p-16 flex flex-col justify-end relative overflow-hidden group">
-            <div class="absolute inset-0 bg-gradient-to-t from-[#FF4D00]/15 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-1000"></div>
+    </section>
+
+    <section id="discovery" class="px-10 lg:px-32 py-64 grid grid-cols-12 gap-10 relative z-20">
+        <div class="col-span-12 mb-24">
+            <h2 class="text-xs font-black tracking-[2em] uppercase text-[#FF4D00] text-center italic">Discovery Hub</h2>
+        </div>
+
+        <div class="col-span-12 lg:col-span-7 h-[700px] glass-card p-20 flex flex-col justify-end relative overflow-hidden group cursor-pointer">
+            <div class="absolute inset-0 bg-gradient-to-br from-[#FF4D00]/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-1000"></div>
             <div class="relative z-10">
-                <span class="text-[0.7rem] font-bold tracking-widest text-[#FF4D00] mb-6 block">FEATURED EXPERIENCE</span>
-                <h3 class="text-6xl font-black mb-6 tracking-tighter">Planetary Horizon</h3>
-                <p class="opacity-40 text-sm max-w-sm leading-relaxed uppercase tracking-[0.4em]">Visualisasi Alpha Mirai 2.0 yang presisi dan immersive.</p>
+                <p class="text-[0.6rem] font-black tracking-[0.5em] text-[#FF4D00] mb-6 uppercase">New Release</p>
+                <h3 class="text-7xl font-black mb-8 italic uppercase tracking-tighter">Cinema<br>Horizon</h3>
+                <p class="opacity-30 text-sm max-w-sm leading-relaxed tracking-[0.2em] uppercase">Visualisasi masa depan peradaban manusia.</p>
             </div>
         </div>
 
-        <!-- Live Signal Bento -->
-        <div class="col-span-12 lg:col-span-4 h-[600px] glass-card p-12 flex flex-col items-center justify-center text-center gap-14 group">
-            <div class="w-28 h-28 rounded-full border border-orange-500/15 flex items-center justify-center group-hover:border-[#FF4D00] transition-all duration-500">
-                <div class="w-18 h-18 bg-[#FF4D00] rounded-full animate-pulse shadow-[0_0_50px_rgba(255,77,0,0.4)]"></div>
+        <div class="col-span-12 lg:col-span-5 flex flex-col gap-10">
+            <div class="flex-grow glass-card p-12 flex flex-col items-center justify-center text-center group cursor-pointer">
+                <div class="w-24 h-24 rounded-3xl border border-orange-500/10 flex items-center justify-center mb-10 group-hover:rotate-12 transition-transform duration-500">
+                    <div class="w-12 h-12 bg-[#FF4D00] rounded-full shadow-[0_0_50px_rgba(255,77,0,0.5)]"></div>
+                </div>
+                <h3 class="text-3xl font-black italic tracking-tighter uppercase">Global Signal</h3>
+                <p class="text-[10px] opacity-30 mt-4 tracking-[0.5em] uppercase">Active Connection</p>
             </div>
-            <div>
-                <h3 class="text-3xl font-black mb-4 tracking-tighter uppercase">Global Signal</h3>
-                <p class="text-[0.65rem] opacity-30 leading-relaxed tracking-[0.3em] uppercase">Sinyal Peradaban Aktif<br>SAS Authority Core</p>
+            <div class="h-1/3 glass-card p-12 flex items-center justify-between group cursor-pointer">
+                <div>
+                    <h3 class="text-xl font-black italic uppercase tracking-widest">Marketplace</h3>
+                    <p class="text-[10px] opacity-30 mt-2 uppercase tracking-widest">Coming Soon</p>
+                </div>
+                <ChevronRight class="text-orange-500 group-hover:translate-x-3 transition-transform" />
             </div>
         </div>
     </section>
 
-    <!-- FOOTER SYSTEM (SAS PLATFORM OFFICIAL) -->
-    <footer class="p-32 border-t border-white/5 bg-black/60 text-center relative z-20">
-        <p class="text-[0.85rem] font-bold opacity-30 tracking-[1.5em] uppercase mb-6">SAS PLATFORM</p>
-        <p class="text-[0.6rem] opacity-10 tracking-[0.7em] uppercase">&copy; 2026 POPUP.AI | Pop Up Your World</p>
+    <footer class="p-32 border-t border-white/5 bg-black/80 text-center relative z-20 overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-orange-600/5 blur-[120px] rounded-full"></div>
+        <p class="text-[0.7rem] font-black opacity-20 tracking-[2em] uppercase mb-8">Popup Universe</p>
+        <div class="flex justify-center gap-10 mb-12 opacity-30">
+            <a href="#" class="text-[8px] font-black uppercase tracking-widest hover:text-[#FF4D00] transition">Twitter</a>
+            <a href="#" class="text-[8px] font-black uppercase tracking-widest hover:text-[#FF4D00] transition">Instagram</a>
+            <a href="#" class="text-[8px] font-black uppercase tracking-widest hover:text-[#FF4D00] transition">Discord</a>
+        </div>
+        <p class="text-[0.6rem] opacity-10 tracking-[0.5em] uppercase italic font-bold">
+            &copy; 2026 POPUP.AI | Built for Human Sovereignty
+        </p>
     </footer>
 
     <script>
-        function checkAuthParams() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('code')) {
-                const btn = document.getElementById('nav-signin');
-                btn.innerText = "Serashii ✓";
-                btn.classList.add('bg-[#FF4D00]', 'text-white', 'border-none');
-                window.history.replaceState({}, document.title, "/");
-            }
-        }
-
-        // SCROLL PARALLAX ENGINE
+        // Smooth Parallax Logic
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
             const title = document.querySelector('.massive-title');
             const planet = document.querySelector('.planet-centerpiece');
             
             if(title) {
-                title.style.transform = `translateY(${scrolled * 0.28}px)`;
-                title.style.opacity = 1 - (scrolled * 0.0012);
+                title.style.transform = `translateY(${scrolled * 0.35}px)`;
+                title.style.opacity = 1 - (scrolled * 0.0015);
             }
             if(planet) {
-                planet.style.transform = `translateY(calc(-50% + ${scrolled * 0.15}px))`;
+                planet.style.transform = `translateY(calc(-50% + ${scrolled * 0.12}px))`;
             }
+        });
+
+        // Simpel Auth Button Logic
+        document.getElementById('nav-signin').addEventListener('click', function() {
+            this.innerText = "AUTHENTICATING...";
+            setTimeout(() => {
+                this.innerText = "SERASHII ✓";
+                this.style.background = "#FF4D00";
+                this.style.color = "white";
+            }, 1000);
         });
     </script>
 </body>
