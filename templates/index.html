@@ -1,142 +1,99 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POPUP.AI | Enter the AI Universe</title>
-    
-    <!-- Mencegah error favicon -->
-    <link rel="icon" href="data:,">
+<link rel="icon" href="data:,">
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;600;700;800&family=Urbanist:ital,wght@1,900&display=swap" rel="stylesheet">
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;600;700;800&family=Urbanist:ital,wght@1,900&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --popup-orange: #FF4D00;
-        }
+<style>
+    :root { --popup-orange: #FF4D00; }
+    body, html { 
+        margin: 0; padding: 0; 
+        background-color: #050505; 
+        color: white; 
+        font-family: 'Plus Jakarta Sans', sans-serif; 
+        overflow-x: hidden; 
+        height: 100vh; 
+    }
 
-        body, html {
-            margin: 0; padding: 0;
-            background-color: #000;
-            color: white;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            overflow-x: hidden;
-        }
+    /* --- BACKGROUND ENGINE 8K --- */
+    #hero-bg {
+        position: fixed; inset: 0; z-index: -2;
+        background-color: #050505;
+    }
 
-        /* --- 1. THE CORE BACKGROUND (8K MURNI DENGAN JINJA2) --- */
-        .debug-bg {
-            position: fixed;
-            inset: 0;
-            /* Menggunakan url_for agar Flask mengelola path static secara dinamis */
-            background-image: url("{{ url_for('static', filename='dreamina-2026-04-10-9380.jpg') }}");
-            background-size: cover;
-            background-position: center;
-            z-index: -2;
-            background-color: #050505;
-            filter: contrast(1.1) brightness(0.9);
-        }
+    #hero-bg img {
+        width: 100%; height: 100%; object-fit: cover; display: block;
+        filter: contrast(1.1) brightness(0.85);
+        transition: opacity 0.8s ease-in-out;
+    }
 
-        /* Gradasi penutup tipis agar teks tetap terbaca */
-        .page-overlay {
-            position: fixed;
-            inset: 0;
-            background: linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 60%),
-                        linear-gradient(to bottom, transparent 70%, rgba(0,0,0,0.9) 100%);
-            z-index: -1;
-        }
+    .page-overlay {
+        position: fixed; inset: 0;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.95) 100%);
+        z-index: -1;
+    }
 
-        /* --- 2. HERO SECTION TYPOGRAPHY --- */
-        .hero-title {
-            font-family: 'Urbanist', sans-serif;
-            font-size: clamp(3.5rem, 12vw, 8rem);
-            line-height: 0.85;
-            font-weight: 900;
-            letter-spacing: -0.05em;
-            font-style: italic;
-        }
+    .hero-title {
+        font-family: 'Urbanist', sans-serif;
+        font-size: clamp(3.5rem, 12vw, 8.5rem);
+        line-height: 0.85;
+        font-weight: 900;
+        letter-spacing: -0.05em;
+        font-style: italic;
+    }
 
-        .gradient-text {
-            background: linear-gradient(90deg, #FF4D00, #FF8000);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+    .orbit-gradient-text {
+        background: linear-gradient(90deg, #ff5722, #ff9100);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
 
-        /* --- 3. PITA IDENTIFIKASI (DEBUG) --- */
-        .debug-ribbon {
-            position: fixed;
-            top: 0; left: 0; width: 100%;
-            background: #FF4D00;
-            color: black;
-            font-size: 10px;
-            font-weight: 900;
-            text-align: center;
-            padding: 5px 0;
-            z-index: 10000;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
+    #status-info {
+        position: fixed; bottom: 20px; left: 20px;
+        font-size: 8px; font-weight: 900; letter-spacing: 2px;
+        color: rgba(255,255,255,0.2); text-transform: uppercase; z-index: 50;
+    }
+</style>
 
-        .btn-main {
-            background-color: var(--popup-orange);
-            box-shadow: 0 10px 40px rgba(255, 77, 0, 0.3);
-            transition: all 0.4s ease;
-        }
-        .btn-main:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 50px rgba(255, 77, 0, 0.5);
-        }
 
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-thumb { background: var(--popup-orange); border-radius: 10px; }
-    </style>
-</head>
-<body>
+<div id="status-info">Orbit Status: Connected & Verified</div>
 
-    <!-- PITA PENANDA: Konfirmasi file templates/index.html aktif dengan sistem routing Flask -->
-    <div class="debug-ribbon">Sinyal Aktif: Homepage Core (Jinja2 Integrated)</div>
+<!-- BACKGROUND ENGINE -->
+<div id="hero-bg">
+    <!-- PENTING: Menggunakan variabel bg_image yang dikirim dari app.py -->
+    <img src="{{ url_for('static', filename=bg_image) }}" 
+         id="main-bg"
+         onerror="this.src='https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=2000'; console.warn('Aset Lokal 404, Mengaktifkan Cloud Backup');"
+         alt="8K Universe Background">
+</div>
+<div class="page-overlay"></div>
 
-    <!-- BACKGROUND ENGINE -->
-    <div class="debug-bg"></div>
-    <div class="page-overlay"></div>
+<nav class="fixed w-full z-50 px-12 py-10 flex items-center justify-between backdrop-blur-xl border-b border-white/5">
+    <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 bg-orange-600 rounded-lg flex items-center justify-center font-black text-black text-xs rotate-6 shadow-lg shadow-orange-600/20">P</div>
+        <span class="text-2xl font-black italic tracking-tighter uppercase">POPUP<span class="text-orange-600">.AI</span></span>
+    </div>
+    <div class="hidden md:flex space-x-14 text-[10px] font-black uppercase tracking-[0.4em] text-white/40">
+        <a href="/" class="text-white">Beranda</a>
+        <a href="/movies" class="hover:text-white transition-colors">Movies</a>
+        <a href="/music" class="hover:text-white transition-colors">Music</a>
+    </div>
+</nav>
 
-    <!-- NAVIGASI MURNI -->
-    <nav class="fixed w-full z-[100] px-12 py-10 flex justify-between items-center backdrop-blur-md border-b border-white/5">
-        <div class="flex items-center space-x-3">
-            <div class="w-8 h-8 bg-orange-600 rounded-lg flex items-center justify-center font-black text-black text-xs rotate-6">P</div>
-            <span class="text-2xl font-black italic tracking-tighter uppercase">POPUP<span class="text-orange-600">.AI</span></span>
-        </div>
-        <div class="hidden md:flex space-x-14 text-[10px] font-black uppercase tracking-[0.4em] text-white/40">
-            <a href="/" class="text-white">Home</a>
-            <a href="/movies" class="hover:text-white transition-colors">Movies</a>
-            <a href="/music" class="hover:text-white transition-colors">Music</a>
-        </div>
-        <button class="bg-white text-black px-10 py-3 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-orange-600 hover:text-white transition-all">
-            Join Orbit
+<main class="relative z-10 h-screen flex flex-col justify-center px-12 md:px-24">
+    <div class="max-w-5xl">
+        <p class="text-orange-500 font-black tracking-[0.6em] uppercase text-[10px] mb-8">Misi Peradaban 2026</p>
+        <h1 class="hero-title mb-10">
+            Enter the <br><span class="orbit-gradient-text">AI Universe.</span>
+        </h1>
+        <p class="text-xl md:text-2xl text-white/50 font-light max-w-2xl leading-relaxed mb-14">
+            Sistem sinkronisasi berhasil. Selamat beristirahat, Chef. Orbit visual 8K sudah terkunci dengan stabil.
+        </p>
+        <button class="bg-[#FF4D00] px-20 py-6 rounded-full text-[12px] font-black uppercase tracking-[0.3em] text-white shadow-2xl active:scale-95 transition-all">
+            Launch Platform
         </button>
-    </nav>
+    </div>
+</main>
 
-    <!-- HERO CONTENT -->
-    <main class="relative z-10 min-h-screen flex flex-col justify-center px-12 md:px-24">
-        <div class="max-w-5xl">
-            <p class="text-orange-500 font-black tracking-[0.6em] uppercase text-[10px] mb-6">Misi Peradaban 2026</p>
-            <h1 class="hero-title mb-8">
-                Enter the <br><span class="gradient-text">AI Universe.</span>
-            </h1>
-            <p class="text-xl md:text-2xl text-white/60 font-light max-w-2xl leading-relaxed mb-12">
-                Membangun ekosistem konten audio-visual yang transparan. Harmoni antara <span class="text-white font-bold">visi manusia</span> dan kecerdasan buatan.
-            </p>
-            <div class="flex flex-wrap gap-8">
-                <button class="btn-main px-16 py-5 rounded-full text-[12px] font-black uppercase tracking-[0.3em] text-white">
-                    Launch Universe
-                </button>
-                <button class="border border-white/20 backdrop-blur-md px-16 py-5 rounded-full text-[12px] font-black uppercase tracking-[0.3em] hover:bg-white/5 transition-all">
-                    Becoming Creator
-                </button>
-            </div>
-        </div>
-    </main>
-
-</body>
-</html>
+<script>
+    console.log("POPUP.AI | Background path: " + document.getElementById('main-bg').src);
+</script>

@@ -1,19 +1,27 @@
 from flask import Flask, render_template
 
+# Inisialisasi Aplikasi Flask
 app = Flask(__name__)
 
-# --- CORE ROUTING: Memastikan Homepage adalah index.html ---
+# --- CORE ROUTING ---
+# Homepage: Mengarah ke templates/index.html yang sudah diverifikasi
 @app.route('/')
 def home():
-    # Kita kunci ke index.html sebagai Homepage Utama
+    # Mengambil index.html yang baru saja kita beri background 8K
     return render_template('index.html')
 
-# Jalur cadangan jika Chef ingin memisahkan halaman movies
+# Jalur untuk fitur Cinema & Audio
 @app.route('/movies')
-def movies_page():
-    return render_template('index.html')
+def movies():
+    return render_template('movies.html')
+
+@app.route('/music')
+def music():
+    return render_template('music.html')
 
 if __name__ == '__main__':
-    print("--- [SYSTEM ACTIVE]: Menghubungkan Arsitek ke Platform ---")
-    # Menjalankan di localhost port 5000
+    print("--- [ORBIT SYSTEM ACTIVE] ---")
+    print("Project Folder: popup_project")
+    print("Sinyal Lokal: http://127.0.0.1:5000")
+    # Debug mode aktif untuk memantau perubahan secara real-time
     app.run(host='127.0.0.1', port=5000, debug=True)
