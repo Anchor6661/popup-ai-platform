@@ -87,8 +87,8 @@
 
     <!-- BACKGROUND ENGINE -->
     <div id="hero-bg">
-        <!-- Sintaks Jinja2 dengan pengaman tambahan -->
-        <img src="{{ url_for('static', filename=bg_image|default('dreamina-orbit.jpg')) }}" 
+        <!-- Menggunakan operator 'or' untuk fallback yang stabil -->
+        <img src="{{ url_for('static', filename=bg_image or 'dreamina-orbit.jpg') }}" 
              id="main-bg"
              onerror="this.src='https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=2000'; document.getElementById('sync-text').innerText = 'Cloud Active';"
              alt="8K Universe Background">
@@ -110,7 +110,7 @@
                 Enter the <br><span class="orbit-gradient-text">AI Universe.</span>
             </h1>
             <p class="text-xl md:text-2xl text-white/50 font-light max-w-2xl leading-relaxed mb-14">
-                Sistem visual kini lebih stabil. Pastikan Anda mengakses melalui <span class="text-white font-bold italic underline">http://127.0.0.1:5000</span> untuk integrasi penuh dengan mesin Flask.
+                Pondasi visual planet 8K sudah terkunci. Pastikan Chef mengakses melalui <span class="text-white font-bold italic underline">http://127.0.0.1:5000</span> untuk integrasi mesin penuh.
             </p>
             <button class="bg-[#FF4D00] px-20 py-6 rounded-full text-[12px] font-black uppercase tracking-[0.3em] text-white shadow-2xl hover:bg-orange-500 transition-all active:scale-95">
                 Launch Universe
@@ -122,14 +122,21 @@
         const img = document.getElementById('main-bg');
         const syncText = document.getElementById('sync-text');
 
-        // Deteksi cerdas: Jika dibuka secara statis, arahkan jalur ke folder lokal
+        // Deteksi cerdas: Jika dibuka secara statis (langsung ke file)
         if (img.src.includes('{{') || img.src.includes('%7B%7B')) {
             console.log("POPUP.AI | Mode Pratinjau Statis Aktif.");
-            syncText.innerText = "Preview Mode";
+            syncText.innerText = "Static Preview";
             syncText.classList.replace('text-orange-500', 'text-blue-400');
             
             // Mencoba mencari file di folder static secara relatif jika dibuka dari templates/
+            // Kita coba dua kemungkinan path statis
             img.src = "../static/dreamina-orbit.jpg";
+            
+            img.onerror = function() {
+                // Jika gagal di ../static, coba cloud backup
+                this.src = 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=2000';
+                syncText.innerText = "Cloud Active (Static)";
+            };
         } else {
             img.onload = () => {
                 syncText.innerText = "Connected & Live";
