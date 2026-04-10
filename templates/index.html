@@ -1,4 +1,6 @@
+<!-- Mencegah error favicon 404 -->
 <link rel="icon" href="data:,">
+
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;600;700;800&family=Urbanist:ital,wght@1,900&display=swap" rel="stylesheet">
 
@@ -66,14 +68,14 @@
 </style>
 
 
-<div id="orbit-status">Orbit: <span id="sync-text" class="text-orange-500">Menyinkronkan...</span></div>
+<div id="orbit-status">Orbit: <span id="sync-text" class="text-orange-500">Syncing...</span></div>
 
 <!-- BACKGROUND ENGINE -->
 <div id="hero-bg">
-    <!-- PERBAIKAN FINAL: Menggunakan variabel yang sudah dijamin ada oleh app.py -->
-    <img src="{{ url_for('static', filename=bg_image) }}" 
+    <!-- Menggunakan filter default untuk keamanan agar tidak crash jika variabel kosong -->
+    <img src="{{ url_for('static', filename=bg_image|default('dreamina-orbit.jpg')) }}" 
          id="main-bg"
-         onerror="this.src='https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=2000'; document.getElementById('sync-text').innerText = 'Cloud Aktif';"
+         onerror="this.src='https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=2000'; document.getElementById('sync-text').innerText = 'Cloud Backup';"
          alt="8K Universe Background">
 </div>
 
@@ -105,16 +107,14 @@
     const img = document.getElementById('main-bg');
     const syncText = document.getElementById('sync-text');
 
-    // Deteksi apakah Flask memproses file ini dengan benar
+    // Deteksi status sinkronisasi
     if (img.src.includes('%7B%7B') || img.src.includes('{{')) {
-        console.error("POPUP.AI ERROR: Mesin Flask belum memproses file ini.");
-        syncText.innerText = "Mode Statis (Error)";
-        syncText.classList.replace('text-orange-500', 'text-red-500');
+        syncText.innerText = "Mode Statis";
+        syncText.classList.replace('text-orange-500', 'text-red-400');
     } else {
         img.onload = () => {
             syncText.innerText = "Stabil & Live";
             syncText.classList.replace('text-orange-500', 'text-green-500');
-            console.log("%c POPUP.AI | ORBIT STABLE ", "background: #FF4D00; color: #000; font-weight: bold; padding: 5px;");
         };
     }
 </script>

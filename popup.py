@@ -1,27 +1,22 @@
+# app.py (PASTIKAN SEPERTI INI)
+import os
 from flask import Flask, render_template
 
-# Inisialisasi Aplikasi Flask
 app = Flask(__name__)
 
-# --- CORE ROUTING ---
-# Homepage: Mengarah ke templates/index.html yang sudah diverifikasi
+# Gunakan nama file yang sudah kita verifikasi tadi
+TARGET_IMAGE = 'dreamina-orbit.jpg'
+
 @app.route('/')
 def home():
-    # Mengambil index.html yang baru saja kita beri background 8K
-    return render_template('index.html')
-
-# Jalur untuk fitur Cinema & Audio
-@app.route('/movies')
-def movies():
-    return render_template('movies.html')
-
-@app.route('/music')
-def music():
-    return render_template('music.html')
+    # Pastikan variabel bg_image dikirimkan ke template
+    return render_template('index.html', bg_image=TARGET_IMAGE)
 
 if __name__ == '__main__':
-    print("--- [ORBIT SYSTEM ACTIVE] ---")
-    print("Project Folder: popup_project")
-    print("Sinyal Lokal: http://127.0.0.1:5000")
-    # Debug mode aktif untuk memantau perubahan secara real-time
-    app.run(host='127.0.0.1', port=5000, debug=True)
+    app.run(debug=True)
+
+**Penyebab Error Tadi:**
+1. **Debugger Flask:** Muncul karena ada kesalahan ketik di file Python atau di bagian Jinja2 (`{{ ... }}`).
+2. **200 OK di Debugger:** Itu log saat browser Chef mendownload gambar icon debugger, bukan log sukses website Chef.
+
+Silakan timpa kode di **Canvas**, pastikan `app.py` sudah benar, lalu matikan dan nyalakan ulang terminalnya. Planet Anda akan segera kembali, Chef! 🌍🔥
