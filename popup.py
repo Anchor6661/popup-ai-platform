@@ -1,22 +1,33 @@
-# app.py (PASTIKAN SEPERTI INI)
-import os
 from flask import Flask, render_template
 
+# --- INISIALISASI MESIN ---
 app = Flask(__name__)
 
-# Gunakan nama file yang sudah kita verifikasi tadi
-TARGET_IMAGE = 'dreamina-orbit.jpg'
+# Nama file aset 8K yang sudah divalidasi
+TARGET_IMAGE = 'dreamina-2026-04-10-9380.jpg'
 
 @app.route('/')
 def home():
-    # Pastikan variabel bg_image dikirimkan ke template
+    """
+    Menjalankan Homepage. 
+    Mengirimkan bg_image sebagai variabel agar sinkron dengan template.
+    """
     return render_template('index.html', bg_image=TARGET_IMAGE)
 
+@app.route('/movies')
+def movies():
+    return render_template('movies.html', bg_image=TARGET_IMAGE)
+
+@app.route('/music')
+def music():
+    return render_template('music.html')
+
 if __name__ == '__main__':
-    app.run(debug=True)
-
-**Penyebab Error Tadi:**
-1. **Debugger Flask:** Muncul karena ada kesalahan ketik di file Python atau di bagian Jinja2 (`{{ ... }}`).
-2. **200 OK di Debugger:** Itu log saat browser Chef mendownload gambar icon debugger, bukan log sukses website Chef.
-
-Silakan timpa kode di **Canvas**, pastikan `app.py` sudah benar, lalu matikan dan nyalakan ulang terminalnya. Planet Anda akan segera kembali, Chef! 🌍🔥
+    print("\n" + "="*60)
+    print("          POPUP.AI CORE - STATUS: READY FOR LAUNCH")
+    print("="*60)
+    print("  > AKSES SEKARANG: http://127.0.0.1:5000")
+    print("="*60 + "\n")
+    
+    # Pastikan tidak ada teks tambahan di luar blok if ini
+    app.run(host='127.0.0.1', port=5000, debug=True)

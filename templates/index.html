@@ -1,152 +1,231 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POPUP.AI | Orbit Terverifikasi</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>POPUP.AI | Welcome to the New Civilization</title>
+  <link rel="icon" href="data:," />
 
-    <link rel="icon" href="data:,">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;600;700;800&family=Urbanist:ital,wght@1,900&display=swap" rel="stylesheet">
+  <!-- Integrasi Framework Visual -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Urbanist:ital,wght@0,700;0,800;0,900;1,800;1,900&display=swap" rel="stylesheet">
 
-    <style>
-        :root { --popup-orange: #FF4D00; }
+  <style>
+    :root {
+      --popup-orange: #ff4d00;
+      --popup-dark: #050505;
+    }
 
-        html, body {
-            margin: 0;
-            padding: 0;
-            background: #000;
-            color: white;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            overflow: hidden;
-            height: 100%;
-        }
+    * { box-sizing: border-box; }
 
-        /* --- BACKGROUND ENGINE 8K --- */
-        #bg-container {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            background: #050505;
-        }
+    html, body {
+      margin: 0; padding: 0;
+      width: 100%; height: 100%;
+      background: var(--popup-dark);
+      color: white;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+    }
 
-        #bg-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            /* Kalibrasi visual: Brightness dinaikkan agar planet terlihat jelas */
-            filter: contrast(1.1) brightness(1.2);
-            transition: opacity 0.8s ease-in-out;
-        }
+    /* --- LAYER 1: CINEMATIC VIDEO ENGINE --- */
+    .hero-video {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -3;
+      /* Kalibrasi Sinematik Chef */
+      filter: brightness(0.72) contrast(1.08) saturate(1.05);
+      pointer-events: none;
+      transition: transform 0.8s cubic-bezier(0.1, 0, 0.2, 1);
+    }
 
-        /* OVERLAY GRADIENT */
-        .hero-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 10;
-            background: 
-                linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 55%, transparent 100%),
-                linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.5) 100%);
-        }
+    /* --- LAYER 2: CINEMATIC SHIELD --- */
+    .hero-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      /* Shield hitam di kiri untuk fondasi teks yang berwibawa */
+      background: linear-gradient(to right, 
+        rgba(0,0,0,0.85) 0%, 
+        rgba(0,0,0,0.4) 35%, 
+        transparent 100%),
+        linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.8) 100%);
+      pointer-events: none;
+    }
 
-        /* UI CONTENT */
-        nav, main {
-            position: relative;
-            z-index: 20;
-        }
+    /* --- LAYER 3: INTERACTIVE BRAND GLOW --- */
+    #cursor-glow {
+      position: fixed;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(255, 77, 0, 0.12), transparent 70%);
+      z-index: -1;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s linear;
+    }
 
-        .hero-title {
-            font-family: 'Urbanist', sans-serif;
-            font-size: clamp(3.5rem, 11vw, 8.5rem);
-            line-height: 0.85;
-            font-weight: 900;
-            font-style: italic;
-            letter-spacing: -0.05em;
-        }
+    /* --- NAVIGATION --- */
+    .nav-shell {
+      backdrop-filter: blur(15px);
+      background: rgba(0,0,0,0.25);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
 
-        .status-pill {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-    </style>
+    /* --- TYPOGRAPHY --- */
+    .hero-title {
+      font-family: 'Urbanist', sans-serif;
+      font-size: clamp(3.2rem, 9vw, 8rem);
+      line-height: 0.85;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      font-style: italic;
+    }
+
+    .hero-accent {
+      color: var(--popup-orange);
+      text-shadow: 0 0 30px rgba(255,77,0,0.5);
+    }
+
+    /* --- BUTTONS --- */
+    .cta-main {
+      background: var(--popup-orange);
+      box-shadow: 0 12px 45px rgba(255,77,0,0.35);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .cta-main:hover {
+      transform: translateY(-5px);
+      filter: brightness(1.1);
+      box-shadow: 0 22px 65px rgba(255,77,0,0.55);
+    }
+
+    .cta-secondary {
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.03);
+      backdrop-filter: blur(10px);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .cta-secondary:hover {
+      transform: translateY(-5px);
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(255,255,255,0.35);
+    }
+
+    /* --- LIVE INDICATOR --- */
+    .dot-live {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 15px #22c55e;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- BACKGROUND ENGINE -->
-    <div id="bg-container">
-        <!-- Jalur Jinja2 untuk Flask -->
-        <img 
-            src="{{ url_for('static', filename='dreamina-2026-04-10-9380.jpg') }}" 
-            id="orbit-visual"
-            alt="Popup AI Universe Background"
-            onerror="handleImageError(this)"
-        >
+  <!-- THE LIVING CANVAS (R2 & LOCAL SYNC) -->
+  <video autoplay muted loop playsinline preload="auto" class="hero-video" id="main-video">
+    <!-- PRIORITAS 1: File Lokal di folder static -->
+    <source src="/static/dreamina-2026-04-11-2127-A cinematic deep space scene with slow f....mp4" type="video/mp4" />
+    <!-- PRIORITAS 2: Link Cloudflare R2 -->
+    <source src="https://pub-7cee4dd732f049e79ea27c8eb58d6c8d.r2.dev/dreamina-2026-04-11-2127-A%20cinematic%20deep%20space%20scene%20with%20slow%20f....mp4" type="video/mp4" />
+  </video>
+
+  <!-- VISUAL OVERLAYS -->
+  <div class="hero-overlay"></div>
+  <div id="cursor-glow"></div>
+
+  <!-- NAVIGATION INTERFACE -->
+  <nav class="nav-shell fixed top-0 left-0 w-full z-30">
+    <div class="max-w-7xl mx-auto px-10 py-7 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <div class="w-11 h-11 rounded-2xl bg-[#ff4d00] text-black font-black flex items-center justify-center rotate-6 shadow-2xl shadow-orange-600/30">
+          P
+        </div>
+        <div class="text-2xl md:text-3xl font-black italic tracking-tighter uppercase font-urbanist">
+          POPUP<span class="text-[#ff4d00]">.AI</span>
+        </div>
+      </div>
+
+      <div class="hidden md:flex items-center gap-14 text-[10px] font-black uppercase tracking-[0.45em] text-white/30">
+        <a href="#" class="hover:text-white transition-all">Universe</a>
+        <a href="#" class="hover:text-white transition-all">Cinema</a>
+        <a href="#" class="hover:text-white transition-all">Audio</a>
+      </div>
+
+      <div class="flex items-center gap-4 bg-white/5 border border-white/5 px-6 py-3 rounded-full backdrop-blur-2xl">
+        <span class="dot-live"></span>
+        <span class="text-[9px] font-black uppercase tracking-[0.35em] text-green-500/80">Orbit Active</span>
+      </div>
     </div>
+  </nav>
 
-    <div class="hero-overlay"></div>
+  <!-- HERO CORE CONTENT -->
+  <main class="relative z-20 min-h-screen flex items-center px-10 md:px-24">
+    <div class="max-w-4xl">
+      <p class="text-[#ff7a3a] text-[10px] font-black uppercase tracking-[0.6em] mb-12">
+        Misi Peradaban 2026
+      </p>
 
-    <!-- NAVIGASI -->
-    <nav class="fixed w-full z-50 px-12 py-10 flex items-center justify-between">
-        <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 bg-orange-600 rounded-xl flex items-center justify-center font-black text-black shadow-lg shadow-orange-600/20 rotate-6">P</div>
-            <span class="text-2xl font-black italic tracking-tighter uppercase font-urbanist">POPUP<span class="text-orange-600">.AI</span></span>
-        </div>
+      <h1 class="hero-title mb-10">
+        Welcome to the <br />
+        <span class="hero-accent">New Civilization.</span>
+      </h1>
 
-        <div class="flex items-center gap-4 status-pill px-6 py-2.5 rounded-full">
-            <div id="status-dot" class="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_#22c55e]"></div>
-            <span id="status-text" class="text-[9px] font-black uppercase tracking-[0.2em] text-green-500">Orbit Live</span>
-        </div>
-    </nav>
+      <p class="max-w-2xl text-xl md:text-2xl leading-relaxed text-white/40 font-light mb-16">
+        Membangun kedaulatan ekonomi kreator melalui teknologi masa depan. Rasakan harmoni visual <span class="text-white font-bold italic">dunia baru</span> yang mengalir langsung dari kedaulatan Anda.
+      </p>
 
-    <!-- CONTENT -->
-    <main class="h-screen flex flex-col justify-center px-12 md:px-24">
-        <div class="max-w-5xl">
-            <p class="text-orange-500 font-black tracking-[0.6em] uppercase text-[10px] mb-8">Misi Peradaban 2026</p>
-            <h1 class="hero-title mb-10">
-                Enter the <br><span class="text-orange-600">AI Universe.</span>
-            </h1>
-            <p class="text-xl md:text-2xl text-white/60 font-light max-w-2xl leading-relaxed mb-14">
-                Visual 8K telah dikalibrasi ulang. Sistem navigasi mendeteksi sinkronisasi <span class="text-white font-bold italic">dunia baru</span> Anda berjalan stabil.
-            </p>
-            <button class="bg-[#FF4D00] px-20 py-6 rounded-full text-[12px] font-black uppercase tracking-[0.4em] text-white shadow-[0_20px_50px_rgba(255,77,0,0.3)] hover:scale-105 active:scale-95 transition-all">
-                Launch Universe
-            </button>
-        </div>
-    </main>
+      <div class="flex flex-col sm:flex-row gap-8">
+        <button class="cta-main rounded-full px-16 py-6 text-[12px] font-black uppercase tracking-[0.45em] text-white italic">
+          Launch Universe
+        </button>
 
-    <script>
-        const img = document.getElementById('orbit-visual');
-        const statusText = document.getElementById('status-text');
-        const statusDot = document.getElementById('status-dot');
+        <button class="cta-secondary rounded-full px-16 py-6 text-[12px] font-black uppercase tracking-[0.45em] text-white italic">
+          Become Creator
+        </button>
+      </div>
 
-        // Fungsi penanganan jika gambar gagal (atau jika Jinja2 tidak memproses path)
-        function handleImageError(element) {
-            console.log("POPUP.AI | Mencoba jalur alternatif...");
-            // Jika dibuka secara lokal (file://), kita arahkan ke folder static secara manual
-            if (window.location.protocol === 'file:') {
-                element.src = 'static/dreamina-2026-04-10-9380.jpg';
-            } else {
-                // Fallback ke Cloud jika di server tapi file tidak ada
-                element.src = 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=2000';
-            }
-        }
+      <div class="mt-24 text-white/10 text-[9px] font-black uppercase tracking-[0.6em]">
+        Standard: 1080P Cloudflare R2 Stream • Encrypted Orbit
+      </div>
+    </div>
+  </main>
 
-        // Cek Protokol saat halaman dimuat
-        window.onload = () => {
-            if (img.src.includes('{{') || window.location.protocol === 'file:') {
-                console.log("%c POPUP.AI | MODE PRATINJAU STATIS AKTIF ", "background: #1e293b; color: #fbbf24; font-weight: bold; padding: 4px;");
-                statusText.innerText = "Preview Mode";
-                statusText.className = "text-[9px] font-black uppercase tracking-[0.2em] text-yellow-500";
-                statusDot.className = "w-2 h-2 bg-yellow-500 rounded-full animate-pulse shadow-[0_0_10px_#fbbf24]";
-                
-                // Paksa pemuatan gambar untuk mode lokal
-                if (img.src.includes('{{')) handleImageError(img);
-            } else {
-                console.log("%c POPUP.AI | ORBIT LIVE & CONNECTED ", "background: #FF4D00; color: #000; font-weight: bold; padding: 4px;");
-            }
-        };
-    </script>
+  <script>
+    const video = document.getElementById('main-video');
+    const glow = document.getElementById('cursor-glow');
+
+    // SENSOR INTERAKSI (PARALLAX & GLOW)
+    document.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth - 0.5); 
+        const y = (e.clientY / window.innerHeight - 0.5);
+        
+        // Pergerakan Video Sinematik
+        video.style.transform = `translate(${x * 35}px, ${y * 35}px) scale(1.1)`;
+        
+        // Pendaran Brand Mengikuti Kursor
+        glow.style.left = `${e.clientX}px`;
+        glow.style.top = `${e.clientY}px`;
+    });
+
+    // FORCE PLAY PROTOCOL
+    window.onload = () => {
+        video.play().catch(err => {
+            console.log("Autoplay ditunda. Menunggu interaksi pertama dari kreator.");
+        });
+    }
+  </script>
 </body>
 </html>
